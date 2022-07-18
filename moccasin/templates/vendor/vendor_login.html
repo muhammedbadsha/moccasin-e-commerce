@@ -1,0 +1,87 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Unplug UI</title>
+    <link rel="stylesheet" href="{% static 'css/user_login/unplug-ui-kit.css' %}">
+    <link rel="stylesheet" href="{% static 'css/user_login/unplug-ui-kit-demo.css' %}">
+    <link rel="stylesheet" href="{% static 'css/user_login/materialdesignicons.min.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+<body>
+    <main class="auth">
+        <div class="container-fluid">
+            <div class="row vh-100">
+                <div class="col-md-6 text-center py-5 d-flex flex-column justify-content-center auth-bg-section text-white" style="background-image: url(static/images/user_login/login-bg.jpg)">
+                    <!-- <h1 class="text-reset">Welcome to <br> unplug New UI Kit</h1>
+                    <p class="font-weight-bold text-reset">Enter your personal details and join the unplug ui kit.</p> -->
+                </div>
+                <div class="col-md-6 text-center d-flex flex-column py-5 justify-content-center">
+                    <div class="auth-form-section">
+                        <div class="logo">
+                            {% comment %} <img src="{% static 'images/icons/logo-01.png' %}" class="img-fluid" alt="Unplug UI" width="200">{% endcomment %}
+                            <h1><b>MOCCA</b>SIN</h1>
+                            
+                            </div> 
+                        <h2>Sign in</h2>
+                        <!-- <p>Free access to our dashboard</p> -->
+                        <form action="{% url 'vendor_login' %}"  method="post" class="auth-form">
+                            {% csrf_token %}
+                            {% if messages %}
+                            <div id="messages" class="container">
+                            <ul class="messages">
+                                {% for message in messages %}
+                                <div{% if message.tags %} class="alert alert-{{ message.tags }}"{% endif %} role="alert">
+                                <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span></button>    
+                                {{ message }}</div>
+                                {% endfor %}
+                            </ul>
+                             </div>
+                            {% endif %}
+                            <div class="form-group">
+                                <label for="email" class="sr-only">Email</label>
+                                
+                               <input type="email" name="email" id="email" class="form-control" placeholder="Email"> 
+                            </div>
+                            <div class="form-group">
+                            <label for="userPassword" class="sr-only">Password</label>
+                             <input type="password" name="password" id="userPassword" class="form-control" placeholder="Password"> 
+                            </div>
+                            <button type="submit" class="btn btn-success btn-block mb-3">Sign in</button>
+                            <div class="d-md-flex justify-content-between">
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" name="termsAgriment" id="termsAgriment" value="termsAgreed">
+                                    <label class="form-check-label" for="termsAgriment">
+                                        Remember Me
+                                    </label>
+                                </div>
+                                <a href="#" class="text-info">Forgot Password?</a>
+                            </div>
+
+                        </form>
+                        <h5 class="text-left mb-3">Sign in to Dribbble</h5>
+                        <p class="mb-0 d-flex">
+                            <a href="#" class="btn btn-light btn-block mr-2">Sign in with google</a>
+                            <a href="#" class="btn btn-facebook mr-2"> <i class="mdi mdi-facebook"></i></a>
+                            <a href="#" class="btn btn-twitter"><i class="mdi mdi-twitter"></i></a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script>
+        setTimeout(function(){
+            $('#messages').fadeOut('slow')
+        
+        },4000)
+    </script>
+    
+
+    <script src="{% static 'js/scripts.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</body>
+</html>
