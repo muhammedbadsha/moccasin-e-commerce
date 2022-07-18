@@ -8,26 +8,21 @@ from django.contrib import auth,messages
 
 
 def vendor_home(request):
+    
     return render(request,'vendor/vendor_home.html')
 
 
 def vendor_login(request):
     if request.method == 'POST':
-        email = request.POST['email']
-        password = request.POST['password']
+        email =request.POST['Email']
+        password =request.POST['Password']
         print(email,password)
-        vendor = auth.authenticate(email=email, password=password)
-        print(vendor)
-        if vendor.is_vendor:
-            auth.login(request, vendor)
-            # Redirect to a success page.
-            return redirect('vendor_home')
-            
-        else:
-            # Return an 'invalid login' error message.
-          
-            messages.error(request,'email and password invalid')
-            return redirect('vendor_login')
+        vendor = auth.authenticate(email=email,password=password)
+        auth.login(request,vendor)
+        return redirect('vendor_home')
+
+    else:
+        return render(request,'vendor/vendor_login.html')
 
 def vendor_register(request):
     if request.method == 'POST':
@@ -61,4 +56,4 @@ def vendor_register(request):
 
 
 def vendor_logout(request):
-    return redirect('vendor/login')
+    return redirect('vendor_login')

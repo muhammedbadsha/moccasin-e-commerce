@@ -45,7 +45,7 @@ def user_login(request):
         return redirect('home')
      
     if request.method == 'POST':
-        email = request.POST['email']
+        email = request.POST.get('email',None)
         password = request.POST['password']
         print(email,password)
         user = auth.authenticate(email=email, password=password)
