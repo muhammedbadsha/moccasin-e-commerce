@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import ModelForm
-from .models import Vendor
+from accounts.models import User
 
 class VendorForm(ModelForm):
     password = forms.CharField(widget =forms.PasswordInput(attrs={
@@ -10,7 +10,7 @@ class VendorForm(ModelForm):
     'Placeholder': 'confirm password'
     }))
     class Meta:
-        model = Vendor
+        model = User
         fields = ['shop_name','email','phone_number','city','state','zip_code']
 
     def __init__(self,*args, **kwargs):

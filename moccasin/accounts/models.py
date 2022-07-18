@@ -7,6 +7,7 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 my_choices=(
     ("user", "user"),
     ("vendor", "vendor"),
+    ("admin","admin"),
 )
 
 
@@ -32,15 +33,34 @@ class MyUserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
+    def create_vendor(self,shop_name,email,username,phone_number,password=None,city=None,state=None,zip_code = None):
+        vendor = self.model(
+            shop_name=shop_name,
+            email=email,
+            username=username,
+            phone_number=phone_number,
+            password=password,
+            city=city,
+            state=state,
+            zip_code=zip_code,
+            )
+
+        vendor.user_role = 'vendor'
+        vendor.is_vendor = True
+        vendor.set_password=(password)
+        vendor.save(using=self._db)
+
+
     
 
-    def create_superuser(self, first_name, last_name, email, username, password, phone_number):
+    def create_superuser(self, first_name, last_name, email, username, password,phone_number):
         user = self.create_user(
             email=self.normalize_email(email),
             username=username,
             password=password,
             first_name=first_name,
             last_name=last_name,
+            phone_number=phone_number
             
 
         )
@@ -59,10 +79,14 @@ class User(AbstractBaseUser):
     user_role = models.CharField(max_length = 30,choices = my_choices,null=True)
     first_name = models.CharField(max_length=50,null=True)
     last_name = models.CharField(max_length=50)
+    shop_name = models.CharField(max_length=100,null=True)
     username = models.CharField(max_length=50)
     email = models.CharField(max_length=50, unique=True)
     phone_number = models.CharField(
         ('mobile number'), max_length=10, unique=True)
+    city = models.CharField(max_length=150,null=True)
+    state = models.CharField(max_length=150,null=True)
+    zip_code = models.IntegerField(null=True)
 
    
     # required
@@ -75,7 +99,7 @@ class User(AbstractBaseUser):
     is_superadmin = models.BooleanField(default=False)
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['first_name', 'last_name', 'username']
+    REQUIRED_FIELDS = ['first_name', 'last_name', 'username','phone_number']
 
     objects = MyUserManager()
 

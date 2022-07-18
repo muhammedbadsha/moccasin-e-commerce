@@ -1,8 +1,8 @@
 from django.http import HttpResponse
 from django.shortcuts import render,redirect
 from .forms import VendorForm
-from .models import  Vendor
-from django.contrib import auth
+from accounts.models import  User
+from django.contrib import auth,messages
 # Create your views here.
 
 
@@ -12,18 +12,22 @@ def vendor_home(request):
 
 
 def vendor_login(request):
-    if request.method =='POST':
+    if request.method == 'POST':
         email = request.POST['email']
         password = request.POST['password']
-        vendor = auth.authenticate(email = email, password = password)
-        try:
-            if vendor is not None:
-                auth.login(request,vendor)
-        except:
-                return redirect('vendor_home')
-
-    else:
-        return render(request,'vendor/vendor_login.html')
+        print(email,password)
+        vendor = auth.authenticate(email=email, password=password)
+        print(vendor)
+        if vendor.is_vendor:
+            auth.login(request, vendor)
+            # Redirect to a success page.
+            return redirect('vendor_home')
+            
+        else:
+            # Return an 'invalid login' error message.
+          
+            messages.error(request,'email and password invalid')
+            return redirect('vendor_login')
 
 def vendor_register(request):
     if request.method == 'POST':
@@ -37,7 +41,7 @@ def vendor_register(request):
             city = form.cleaned_data['city']
             state = form.cleaned_data['state']
             zip_code = form.cleaned_data['zip_code']
-            vendor = Vendor.objects.create(
+            vendor = User.objects.create_vendor(
                 shop_name=shop_name,
                 email=email,
                 username=username,
@@ -48,7 +52,7 @@ def vendor_register(request):
                 zip_code=zip_code,
             )
 
-            vendor.save()
+           
     else:
         form = VendorForm()
     

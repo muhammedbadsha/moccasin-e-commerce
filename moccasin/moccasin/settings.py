@@ -73,7 +73,8 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'moccasin.wsgi.application'
-# AUTH_USER_MODEL = 'accounts.User'
+AUTH_USER_MODEL = 'accounts.User'
+
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
@@ -81,7 +82,7 @@ WSGI_APPLICATION = 'moccasin.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'moccasin',  
+        'NAME': 'Moccasin',  
         'USER': 'postgres',
         'PASSWORD': 'badsha',
         'HOST': 'localhost',
