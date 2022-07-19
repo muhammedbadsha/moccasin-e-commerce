@@ -24,7 +24,7 @@
                         <h1><b>MOCCA</b>SIN</h1>
                         <h2>Sign up</h2>
                         </div> 
-                        <form action="{% url 'user_register' %}" method="post" class="auth-form">
+                        <form action="{% url 'vendor_register' %}" method="post" class="auth-form">
                             {% csrf_token %}
                            {% for fom in form %}
                             <div class="form-group">

@@ -50,7 +50,7 @@ def user_login(request):
         print(email,password)
         user = auth.authenticate(email=email, password=password)
         print(user)
-        if user is not None:
+        if user is not None and user.is_active:
             auth.login(request, user)
             # Redirect to a success page.
             return redirect('home')

@@ -73,7 +73,9 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'moccasin.wsgi.application'
-AUTH_USER_MODEL = 'accounts.User'
+AUTH_USER_MODEL = 'accounts.User' 
+
+
 
 
 # Database

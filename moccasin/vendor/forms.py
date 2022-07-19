@@ -11,10 +11,12 @@ class VendorForm(ModelForm):
     }))
     class Meta:
         model = User
-        fields = ['shop_name','email','phone_number','city','state','zip_code']
+        fields = ['first_name','last_name','shop_name','email','phone_number','city','state','zip_code']
 
     def __init__(self,*args, **kwargs):
         super(VendorForm,self).__init__(*args,**kwargs)
+        self.fields['first_name'].widget.attrs['placeholder'] = 'Enter first_name'
+        self.fields['last_name'].widget.attrs['placeholder'] = 'Enter last_name'
         self.fields['shop_name'].widget.attrs['placeholder'] = 'Enter shop name'
         self.fields['email'].widget.attrs['placeholder'] = 'Enter email'
         self.fields['state'].widget.attrs['placeholder'] = 'Enter state'
