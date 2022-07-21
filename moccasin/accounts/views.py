@@ -3,7 +3,7 @@ import email
 from .forms import RegisterForm
 from .models import User
 from django.shortcuts import redirect, render
-
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages,auth
 
 
@@ -71,6 +71,8 @@ def user_logout(request):
     auth.logout(request)
     return redirect('user_login')
 
+
+# @login_required
 def home(request):
     return render(request,'user/home.html')
 

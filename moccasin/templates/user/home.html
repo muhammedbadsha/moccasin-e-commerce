@@ -125,12 +125,13 @@
 						<a href="#" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti" data-notify="0">
 							<i class="zmdi zmdi-favorite-outline"></i>
 						</a>
-				
+				{% if request.user is authenticated %}
 					<span><a class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-30  " href="{% url 'user_login' %}">login</a></span>
 					<p class="dis-block icon-header-item cl2 hov-cl1 trans-04 ">/</p>
 					<span><a class="dis-block icon-header-item cl2 hov-cl1 trans-04  margin-left-1em" href="{% url 'user_register' %}">register</a></span>
+					{% else %}
 					<span><a class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-30 " href="{% url 'user_logout' %}">logout</a></span>
-				
+					{% endif %}
 					</div>
 				</nav>
 			</div>	

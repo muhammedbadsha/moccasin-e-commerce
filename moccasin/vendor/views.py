@@ -10,6 +10,8 @@ from django.contrib.auth.decorators import login_required
 
 
 def vendor_login(request):
+    if request.user.is_authenticated:
+        return redirect('vendor_home')
     if request.method == 'POST':
         email =request.POST['Email']
         password =request.POST['Password']
@@ -66,24 +68,32 @@ def vendor_home(request):
     
     return render(request,'vendor/vendor_home.html')
 
-
-    
-
 @login_required
 def vendor_logout(request):    
     auth.logout(request)
     return render(request,'vendor/vendor_login.html')
 
 
-def vendor_contact(request):
-    return render(request,'vendor/contact.html')
+def billing(request):
+    return render(request,'vendor/pages/billing.html')
 
 
-def vendor_collection(request):
-    return render(request,'vendor/collection.html')
+def dashboard(request):
+    return render(request,'vendor/pages/dashboard.html')
 
-def vendor_racing_boots(request):
-    return render(request,'vendor/racing_boots.html')
+def profile(request):
+    return render(request,'vendor/pages/profile.html')
 
-def vendor_shoes(request):
-    return render(request,'vendor/shoes.html')
+def rtl(request):
+    return render(request,'vendor/pages/rtl.html')
+
+
+def tables(request):
+    return render(request,'vendor/pages/tables.html')
+
+
+def virtual_reality(request):
+    return render(request,'vendor/pages/virtual_reality.html')
+
+
+
