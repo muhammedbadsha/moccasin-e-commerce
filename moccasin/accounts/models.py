@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
-
+import uuid
 
 
 
@@ -30,7 +30,7 @@ class MyUserManager(BaseUserManager):
             phone_number=phone_number
         )
         user.user_role = 'user'
-        user.is_active = True
+        user.is_active = False
         user.set_password(password)
         user.save(using=self._db)
         return user
@@ -59,6 +59,7 @@ class MyUserManager(BaseUserManager):
 
 
 class User(AbstractBaseUser):
+    uid = models.UUIDField(default=uuid.uuid4)
     user_role = models.CharField(max_length = 30,choices = my_choices,null=True)
     first_name = models.CharField(max_length=50,null=True)
     last_name = models.CharField(max_length=50)
@@ -70,6 +71,7 @@ class User(AbstractBaseUser):
     city = models.CharField(max_length=150,null=True)
     state = models.CharField(max_length=150,null=True)
     zip_code = models.IntegerField(null=True)
+    otp =  models.CharField(max_length=100, null=True)
 
    
     # required

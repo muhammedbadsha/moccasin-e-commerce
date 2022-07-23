@@ -1,5 +1,5 @@
-
-import email
+from random import randint
+from .mixins import MssageHandler
 from .forms import RegisterForm
 from .models import User
 from django.shortcuts import redirect, render
@@ -29,8 +29,13 @@ def user_register(request):
                 password=password,
                 phone_number = phone_number,
             )
+            user.otp = str(randint(1000,9999))
             user.save()
-            messages.success(request,'Registered successfully ..')
+            print(user.otp,user.phone_number)
+            message_handler = MssageHandler(user.phone_number,user.otp).send_otp_to_phone()
+            return redirect('otp')
+            
+
          
             return redirect('user_login')
         
@@ -38,6 +43,32 @@ def user_register(request):
     else:
         form = RegisterForm()
     return render(request,'user/user_register.html',{'form':form})
+
+
+def otp(request):
+
+    if request.method == 'POST':
+        
+        phone_number = request.POST['phone_number']
+        try:
+            user = User.objects.get(phone_number = phone_number)
+            oldotp=user.otp
+            otp = request.POST['otp']
+            if otp == oldotp:
+                user.is_active = True
+                user.save()
+                return redirect('user_login')
+            else:
+                return redirect('otp')
+        except:
+        # print(user)
+            messages.error(request,"user does't exists!!")
+            return redirect('otp')
+           
+        # print(oldotp)
+           
+
+    return render(request,'user/user_otp.html')
 
 
 def user_login(request):
@@ -74,6 +105,7 @@ def user_logout(request):
 
 # @login_required
 def home(request):
+
     return render(request,'user/home.html')
 
 

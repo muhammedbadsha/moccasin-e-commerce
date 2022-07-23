@@ -42,7 +42,14 @@ INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
     'adminapp.apps.AdminappConfig',
     'vendor.apps.VendorConfig',
+    'rest_framework',
+   
 ]
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework.authentication.TokenAuthentication",
+    ),
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -143,3 +150,8 @@ MEDIA = 'static/images'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+ACCOUNT_SID = 'AC256b88140ad933cd59b6e57ebc9183f5'
+AUTH_TOKEN = 'fe3844a97e8404cddff65a36d5b76740'
+SERVICE_SID = 'VA0a2786029ae5b86384405f94522bd757'
