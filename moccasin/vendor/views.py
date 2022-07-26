@@ -97,3 +97,5 @@ def virtual_reality(request):
 
 
 
+def add_product(request):
+    return render(request,'vendor/pages/add_product.html')

@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'rest_framework',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -42,7 +43,9 @@ INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
     'adminapp.apps.AdminappConfig',
     'vendor.apps.VendorConfig',
-    'rest_framework',
+    'product.apps.ProductConfig',
+    'category',
+
    
 ]
 REST_FRAMEWORK = {
@@ -74,6 +77,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'category.context_processor.menu_links',
             ],
         },
     },
@@ -91,7 +95,7 @@ AUTH_USER_MODEL = 'accounts.User'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'Moccasin',  
+        'NAME': 'MoccaData',  
         'USER': 'postgres',
         'PASSWORD': 'badsha',
         'HOST': 'localhost',

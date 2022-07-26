@@ -22,4 +22,6 @@ urlpatterns = [
     path('',include('accounts.urls')),
     path('adminapp/',include('adminapp.urls')),
     path('vendor/',include('vendor.urls')),
+    path('product/',include('product.urls')),
+    # path('category/',include('category.urls')),
 ]

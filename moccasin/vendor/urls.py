@@ -17,6 +17,8 @@ urlpatterns = [
     path('tables',views.tables,name='tables'),
     path('virtual_reality',views.virtual_reality,name='virtual_reality'),
     path('rtl',views.rtl,name='rtl'),
+    path('add_product',views.add_product,name='add_product'),
+    
     
     
     ]

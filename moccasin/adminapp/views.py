@@ -34,23 +34,32 @@ def admin_logout(request):
 
 
 def admin_charts_chartjs(request):
-    return render(request,'admin_charts_chartjs.html')
+    return render(request,'admin/admin_charts_chartjs.html')
 
 
 def admin_maps_google(request):
-    return render(request,'admin_maps_google.html')
+    return render(request,'admin/admin_maps_google.html')
 
 def admin_icons_feather(request):
-    return render(request,'admin_icons-feather.html')
+    return render(request,'admin/admin_icons-feather.html')
 
 
 def admin_pages_blank(request):
-    return render(request,'admin_pages_blank.html')
+    return render(request,'admin/admin_pages_blank.html')
 
 
-# def admin_charts_chartjs(request):
-#     return render(request,'admin_charts_chartjs.html')
+def admin_pages_blank(request):
+    return render(request,'admin/admin_pages_blank.html')
 
 
-# def admin_charts_chartjs(request):
-#     return render(request,'admin_charts_chartjs.html')
+def admin_pages_profile(request):
+    return render(request,'admin/admin_pages_profile.html')
+
+
+
+def admin_pages_profile(request):
+    return render(request,'admin/admin_pages_profile.html')
+
+
+def admin_profile(request):
+    return render(request,'admin/admin_profile.html')

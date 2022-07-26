@@ -65,7 +65,7 @@ def otp(request):
             messages.error(request,"user does't exists!!")
             return redirect('otp')
            
-        # print(oldotp)
+            print(oldotp)
            
 
     return render(request,'user/user_otp.html')

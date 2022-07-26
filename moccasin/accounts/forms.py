@@ -3,6 +3,8 @@ from .models import User
 from django import forms
 from django.forms import Form, ModelForm, PasswordInput, ValidationError
 
+
+
 # creating modelform of the same as in models
 class RegisterForm(forms.ModelForm):
     password = forms.CharField(widget =forms.PasswordInput(attrs={
