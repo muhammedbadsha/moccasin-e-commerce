@@ -1,10 +1,20 @@
+# from email.message import EmailMessage
 from random import randint
-from .mixins import MssageHandler
+
+from django.conf import settings
+from .mixins import send_otp_to_phone
 from .forms import RegisterForm
 from .models import User
 from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages,auth
+from django.template.loader import render_to_string
+from django.core import mail
+from django.contrib.sites.shortcuts import get_current_site
+from django.utils.http import urlsafe_base64_encode
+from django.utils.http import urlsafe_base64_decode
+from django.utils.encoding import force_bytes
+from django.contrib.auth.tokens import default_token_generator
 
 
 # Create your views here.
@@ -31,8 +41,8 @@ def user_register(request):
             )
             user.otp = str(randint(1000,9999))
             user.save()
-            print(user.otp,user.phone_number)
-            message_handler = MssageHandler(user.phone_number,user.otp).send_otp_to_phone()
+            
+            send_otp_to_phone(user.phone_number,user.otp)
             return redirect('otp')
             
 
@@ -109,14 +119,69 @@ def home(request):
     return render(request,'user/home.html')
 
 
+def forgot_password(request):
+    if request.method == 'POST':
+        email = request.POST['email']
+        if User.objects.filter(email=email).exists():
+            user = User.objects.get(email__exact=email)
+
+            current_site = get_current_site(request)  
+            mail_subject = 'Reset Your Password'
+            message = render_to_string('user/email_password.html',{
+                'user':user,
+                'domain':current_site,
+                'uid':urlsafe_base64_encode(force_bytes(user.pk)),
+                'token':default_token_generator.make_token(user),
+            })  
+            to_email = email
+            send_email = mail.EmailMessage(mail_subject,message,settings.EMAIL_HOST_USER,[to_email])  
+            send_email.send()
+    return render(request,'user/forgot_password.html')
+
+
+def reset_password_validate(request, uidb64, token):
+    print(uidb64)
+    try:
+        uid  = urlsafe_base64_decode(uidb64).decode()
+        user = User._default_manager.get(pk=uid)
+    except(TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+
+    if user is not None and default_token_generator.check_token(user, token):
+        request.session['uid'] = uid
+        messages.success(request,'please reset your password')
+        return redirect('reset_password')
+    else:
+        messages.error(request,'this link has been expired')
+        return redirect('user_login')
+    
+
+
+def reset_password(request):
+    if request.method == 'POST':
+        password = request.POST['password']
+        confirm_password= request.POST['confirm_password']
+        if password==confirm_password:
+            uid = request.session.get('uid')
+            user = User.objects.get(pk=uid)
+            user.set_password(password)
+            user.save()
+            messages.success(request,'your password is changed')
+            return redirect('user_login')
+        else:
+            return redirect('forgot_password')
+    return render(request,'user/reset_password.html')   
+
+
+
 
 
 
     
 
 
-def product(request):
-    return render(request,'user/product.html')
+# def product(request):
+#     return render(request,'user/product.html')
 
 def about(request):
     return render(request,'user/about.html')

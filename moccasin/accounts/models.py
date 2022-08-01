@@ -59,7 +59,7 @@ class MyUserManager(BaseUserManager):
 
 
 class User(AbstractBaseUser):
-    uid = models.UUIDField(default=uuid.uuid4)
+    # uid = models.UUIDField(default=uuid.uuid4)
     user_role = models.CharField(max_length = 30,choices = my_choices,null=True)
     first_name = models.CharField(max_length=50,null=True)
     last_name = models.CharField(max_length=50)

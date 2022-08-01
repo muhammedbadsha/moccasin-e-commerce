@@ -7,8 +7,11 @@ urlpatterns = [
     path('user_register',views.user_register,name='user_register'),
     path('user_logout',views.user_logout,name='user_logout'),
     path('otp',views.otp,name='otp'),
+    path('forgot_password/',views.forgot_password,name='forgot_password'),
+    path('reset_password_validate/<uidb64>/<token>/',views.reset_password_validate,name='reset_password_validate'),
+    path('reset_password/',views.reset_password,name='reset_password'),
 
-    path('product',views.product,name='product'),
+    
     
     path('blog',views.blog,name='blog'),
     path('shoping_cart',views.shoping_cart,name='shoping_cart'),

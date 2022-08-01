@@ -9,10 +9,13 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
+from ctypes import cast
+from email.policy import default
 import os
 # from accounts.models import User
 from pathlib import Path
 from django.contrib.messages import constants as messages
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -22,10 +25,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-@6yve1v-_3fi4uvp_#nr+&qqm%y78*fn$g^mybc3@#81sgmy1f'
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG', default=True, cast=bool)
 
 ALLOWED_HOSTS = []
 
@@ -126,13 +129,13 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = config('LANGUAGE_CODE')
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = config('TIME_ZONE')
 
-USE_I18N = True
+USE_I18N = config('USE_I18N', default=True, cast=bool)
 
-USE_TZ = True
+USE_TZ = config('USE_TZ', default=True, cast=bool)
 
 
 # Static files (CSS, JavaScript, Images)
@@ -148,7 +151,8 @@ MESSAGE_TAGS = {
 }
 
 # STATIC_ROOT = STATIC_ROOT = BASE_DIR / "staticfiles"
-MEDIA = 'static/images'
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
@@ -156,6 +160,12 @@ MEDIA = 'static/images'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-ACCOUNT_SID = 'AC256b88140ad933cd59b6e57ebc9183f5'
-AUTH_TOKEN = 'fe3844a97e8404cddff65a36d5b76740'
-SERVICE_SID = 'VA0a2786029ae5b86384405f94522bd757'
+ACCOUNT_SID = config('ACCOUNT_SID')
+AUTH_TOKEN = config('AUTH_TOKEN')
+SERVICE_SID = config('SERVICE_SID')
+ADMIN_EMAIL = config('ADMIN_EMAIL')
+EMAIL_HOST = config('EMAIL_HOST',default='localhost')
+EMAIL_USE_TLS =config('EMAIL_USE_TLS',default=False, cast=bool)
+EMAIL_PORT = config('EMAIL_PORT',default=25,cast=int)
+EMAIL_HOST_USER = config('EMAIL_HOST_USER',default='')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD',default='')

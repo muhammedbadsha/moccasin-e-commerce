@@ -3,6 +3,10 @@ from accounts.models import User
 from django.forms import ModelForm
 
 
+mychoice = (
+    ('Agree','Agree'),
+    ('Dis Agree','Dis Agree'),
+)
 
 class AdminLoginForm(ModelForm):
     password = forms.CharField(widget=forms.PasswordInput(attrs={
@@ -28,3 +32,5 @@ class AdminLoginForm(ModelForm):
             raise forms.ValidationError('you are not the admin ')
         if password is not admin_side.password:
             raise forms.ValidationError('password is incorrect')
+
+
