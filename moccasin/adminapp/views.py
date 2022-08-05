@@ -1,6 +1,8 @@
 from django.shortcuts import redirect, render
 from django.contrib import messages
 from accounts.models import User
+from product.models import Product
+from django.conf import settings
 from . forms import AdminLoginForm
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
@@ -78,7 +80,7 @@ def approve_or_not(request):
             user.save()
             messages.success(request,'email send successfully')
             Subject ='MOCASSIN REGISTRATION'
-            from_='moccasincom123@gmail.com'
+            from_=settings.EMAIL_HOST_USER
             Message = 'your registration success you can login now  '
             retrive = user.email
             send_mail(
@@ -92,7 +94,7 @@ def approve_or_not(request):
             user = User.objects.get(pk=uid)
             messages.error(request,'email send successfully')
             Subject ='MOCASSIN REGISTRATION'
-            from_='moccasincom123@gmail.com'
+            from_=settings.EMAIL_HOST_USER
             Message = "sorry could't approve you'r registration request "
             retrive=user.email 
             send_mail(
@@ -107,8 +109,47 @@ def approve_or_not(request):
 
     
     return render(request,'admin/approve_or_not.html')
+# product email
+
+def product_approve_option(request, uidb64, token):
+    try:
+        uid  = urlsafe_base64_decode(uidb64).decode()
+        user = Product._default_manager.get(pk=uid)
+    except(TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+
+    if user is not None and default_token_generator.check_token(user, token):
+        request.session['uid'] = uid
+        messages.success(request,'please reset your password')
+        return redirect('product_approve_or_not')
+    else:
+        messages.error(request,'this link has been expired')
+        return redirect('tables')
 
 
+def product_approve_or_not(request):
+    list = ['agree','dis_agree']
+    if request.method == 'POST':
+        option = request.POST.getlist('option')
+        if option == ['agree']:
+            uid = request.session.get('uid')
+            user = User.objects.get(pk=uid)
+            user.permition = True
+            user.save()
+            messages.success(request,'product posted  successfully')
+            Subject ='MOCASSIN REGISTRATION'
+            from_=settings.EMAIL_HOST_USER
+            Message = ' posted success'
+            retrive = user.email
+            send_mail(
+                Subject,
+                Message,
+                from_,[retrive],
+                )
+            return redirect('tables')
+
+def admin_product_approve(request):
+    return render(request,'admin/admin_product_approve.html')
 
 def admin_charts_chartjs(request):
     return render(request,'admin/admin_charts_chartjs.html')

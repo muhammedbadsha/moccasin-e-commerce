@@ -1,6 +1,7 @@
 from django import forms
 from django.forms import ModelForm
 from accounts.models import User
+from product.models import Product
 
 class VendorForm(ModelForm):
     password = forms.CharField(widget =forms.PasswordInput(attrs={
@@ -40,4 +41,36 @@ class VendorForm(ModelForm):
             except ValueError as e:
                 print(e)
 
+class add_product_form(forms.ModelForm):
+    class Meta:
+        model = Product
+        fields = [ 'image', 'product_name', 'category', 'stock','size_chart','price', 'discription','is_available']
+        widgets = {
+            "images":forms.ClearableFileInput(attrs={
+                "class":"form-control",
+                "name":"image",
+                "type":"file"
+            })
+        }
 
+    def __init__ (self,*args,**kwargs):
+        super(add_product_form,self).__init__(*args,**kwargs)
+
+        for field in self.fields:
+            self.fields[field].widget.attrs['class'] = 'form-control'
+            if field == 'image':
+                self.fields[field].widget.attrs['class']='upload btn btn-primary'
+            if field == 'is_available':
+                self.fields[field].widget.attrs['class']='checkbox'
+
+        self.fields['product_name'].widget.attrs['placeholder'] = 'product name'
+        self.fields['category'].widget.attrs['placeholder'] = ' select..'
+        self.fields['stock'].widget.attrs['placeholder'] = ' enter stock'
+        self.fields['size_chart'].widget.attrs['placeholder'] = ' select..'
+        self.fields['discription'].widget.attrs['placeholder'] = ' enter somthing..'
+        
+
+
+
+            
+        

@@ -1,8 +1,7 @@
-# from email.message import EmailMessage
 from random import randint
-
 from django.conf import settings
-from .mixins import send_otp_to_phone
+from product.models import Product
+
 from .forms import RegisterForm
 from .models import User
 from django.shortcuts import redirect, render
@@ -15,7 +14,7 @@ from django.utils.http import urlsafe_base64_encode
 from django.utils.http import urlsafe_base64_decode
 from django.utils.encoding import force_bytes
 from django.contrib.auth.tokens import default_token_generator
-
+from accounts.mixins import MssageHandler
 
 # Create your views here.
 def user_register(request):
@@ -31,6 +30,7 @@ def user_register(request):
             password = form.cleaned_data['password']
             username = email.split("@")[0]
             phone_number = form.cleaned_data['phone_number']
+            
             user = User.objects.create_user(
                 first_name=first_name, 
                 last_name=last_name,
@@ -41,8 +41,8 @@ def user_register(request):
             )
             user.otp = str(randint(1000,9999))
             user.save()
-            
-            send_otp_to_phone(user.phone_number,user.otp)
+            print(user.otp,user.phone_number)
+            message_handler = MssageHandler(user.phone_number,user.otp).send_otp_to_phone()
             return redirect('otp')
             
 
@@ -115,8 +115,12 @@ def user_logout(request):
 
 # @login_required
 def home(request):
+    product = Product.objects.all()
+    context={
+        'product':product,
+    }
 
-    return render(request,'user/home.html')
+    return render(request,'user/home.html',context)
 
 
 def forgot_password(request):
@@ -135,11 +139,19 @@ def forgot_password(request):
             })  
             to_email = email
             send_email = mail.EmailMessage(mail_subject,message,settings.EMAIL_HOST_USER,[to_email])  
+            print(settings.EMAIL_HOST_USER,to_email)
             send_email.send()
+            print(send_email.send())
+            print('tattuddddddddddddddd')
+            return redirect('user_login')
+        else:
+            messages.info(request,'email does not exists')
+            return redirect('forgot_password')
     return render(request,'user/forgot_password.html')
 
 
 def reset_password_validate(request, uidb64, token):
+    
     print(uidb64)
     try:
         uid  = urlsafe_base64_decode(uidb64).decode()

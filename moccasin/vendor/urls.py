@@ -10,9 +10,13 @@ urlpatterns = [
     path('vendor_register',views.vendor_register,name='vendor_register'),
 
 
+    path('update_product/<id>/',views.update_product,name='update_product'),
+    path('delete_product/<id>/',views.delete_product,name='delete_product'),
+    path('search_product/',views.search_product,name='search_product'),
+    path('view_product/<id>/',views.view_product,name='view_product'),
     path('billing',views.billing,name='billing'),
     path('dashboard',views.dashboard,name='dashboard'),
-    path('profile',views.profile,name='profile'),
+    path('product_profile',views.product_profile,name='product_profile'),
     path('rtl',views.rtl,name='rtl'),
     path('tables',views.tables,name='tables'),
     path('virtual_reality',views.virtual_reality,name='virtual_reality'),

@@ -20,4 +20,9 @@ urlpatterns = [
     path('approve_option/<uidb64>/<token>/',views.approve_option,name='approve_option'),
     path('approve_or_not',views.approve_or_not,name='approve_or_not'),
 
+    #product activation
+    path('admin_product_approve',views.admin_product_approve,name='admin_product_approve'),
+    path('product_approve_option/<uidb64>/<token>/',views.product_approve_option,name='product_approve_option'),
+    path('product_approve_or_not',views.product_approve_or_not,name='product_approve_or_not'), 
+
 ]

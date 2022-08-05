@@ -28,6 +28,7 @@
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="{% static 'css/util.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 <!--===============================================================================================-->
 </head>
 <body class="animsition">
@@ -331,25 +332,48 @@
 						All Products
 					</button>
 
-					<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".women">
-						Women
-					</button>
+					<!-- <button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".women"> -->
+						<div class="dropdown mydropdownjQuery">
+							<a href="#" class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 dropdown-toggle" data-toggle="dropdown">Women <span class="caret"></span></a> 
+							<ul class="dropdown-menu">
+								{% for link in links %}
+							<li><a href="{{ link.get_url}}">{{link.category_name}}</a></li>
+							{% endfor %}
+							</ul>
+							</div>
+					<!-- </button> -->
 
-					<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".men">
-						Men
-					</button>
+					<div class="dropdown mydropdownjQuery">
+						<a href="#" class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 dropdown-toggle" data-toggle="dropdown">Men <span class="caret"></span></a> 
+						<ul class="dropdown-menu">
+						<li><a href="#">Home</a></li>
+						<li><a href="#">About Us</a></li>
+						<li><a href="#">Contact</a></li>
+						<li><a href="#">Gallery</a></li>
+						</ul>
+						</div>
 
-					<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".bag">
-						Bag
-					</button>
+						<div class="dropdown mydropdownjQuery">
+							<a href="#" class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 dropdown-toggle" data-toggle="dropdown">Kids <span class="caret"></span></a> 
+							<ul class="dropdown-menu">
+							<li><a href="#">Home</a></li>
+							<li><a href="#">About Us</a></li>
+							<li><a href="#">Contact</a></li>
+							<li><a href="#">Gallery</a></li>
+							</ul>
+							</div>
 
-					<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".shoes">
-						Shoes
-					</button>
+							<div class="dropdown mydropdownjQuery">
+								<a href="#" class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 dropdown-toggle" data-toggle="dropdown">Shoes <span class="caret"></span></a> 
+								<ul class="dropdown-menu">
+								<li><a href="#">Home</a></li>
+								<li><a href="#">About Us</a></li>
+								<li><a href="#">Contact</a></li>
+								<li><a href="#">Gallery</a></li>
+								</ul>
+								</div>
 
-					<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".watches">
-						Watches
-					</button>
+					
 				</div>
 
 				<div class="flex-w flex-c-m m-tb-10">
@@ -574,7 +598,7 @@
 				<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women">
 					<!-- Block2 -->
 					<div class="block2">
-						<div class="block2-pic hov-img0">
+						<div class="block2-pic hov-img0" style="height: 17em; width: 20em;">
 							<img src="{{products.image.url}}" alt="IMG-PRODUCT">
 
 							<a href="#" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
@@ -769,6 +793,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 	</div>
 
 	<!-- Modal1 -->
+	{% for products in product %}
 	<div class="wrap-modal1 js-modal1 p-t-60 p-b-20">
 		<div class="overlay-modal1 js-hide-modal1"></div>
 
@@ -788,7 +813,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 								<div class="slick3 gallery-lb">
 									<div class="item-slick3" data-thumb="images/product-detail-01.jpg">
 										<div class="wrap-pic-w pos-relative">
-											<img src="{% static 'images/product-detail-01.jpg' %}" alt="IMG-PRODUCT">
+											<img src="{{products.image.url}}" alt="IMG-PRODUCT">
 
 											<a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04" href="images/product-detail-01.jpg">
 												<i class="fa fa-expand"></i>
@@ -798,7 +823,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 
 									<div class="item-slick3" data-thumb="images/product-detail-02.jpg">
 										<div class="wrap-pic-w pos-relative">
-											<img src="{% static 'images/product-detail-02.jpg' %}" alt="IMG-PRODUCT">
+											<img src="{{products.image.url}}" alt="IMG-PRODUCT">
 
 											<a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04" href="images/product-detail-02.jpg">
 												<i class="fa fa-expand"></i>
@@ -823,15 +848,15 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 					<div class="col-md-6 col-lg-5 p-b-30">
 						<div class="p-r-50 p-t-5 p-lr-0-lg">
 							<h4 class="mtext-105 cl2 js-name-detail p-b-14">
-								Lightweight Jacket
+								{{products.product_name}}
 							</h4>
 
 							<span class="mtext-106 cl2">
-								$58.79
+								$ {{products.price}}
 							</span>
 
 							<p class="stext-102 cl3 p-t-23">
-								Nulla eget sem vitae eros pharetra viverra. Nam vitae luctus ligula. Mauris consequat ornare feugiat.
+								{{products.discription}}
 							</p>
 							
 							<!--  -->
@@ -921,7 +946,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 			</div>
 		</div>
 	</div>
-
+{% endfor %}
 <!--===============================================================================================-->	
 	<script src="{% static 'vendor/jquery/jquery-3.2.1.min.js' %}"></script>
 <!--===============================================================================================-->
@@ -1020,9 +1045,43 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 				ps.update();
 			})
 		});
-	</script>
+		ampleXHTML
+</script>
+ampleXHTML
+<script>
+$(function(){
+$('.mydropdownjQuery').hover(function() {
+$(this).addClass('open');
+},
+function() {
+$(this).removeClass('open');
+});
+});
+</script>
+<div class="dropdown mydropdownjQuery">
+<a href="#" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Dropdown Menu <span class="caret"></span></a> 
+<ul class="dropdown-menu">
+<li><a href="#">Home</a></li>
+<li><a href="#">About Us</a></li>
+<li><a href="#">Contact</a></li>
+<li><a href="#">Gallery</a></li>
+</ul>
+</div>
+
+<script>
+$(function(){
+    $('.mydropdownjQuery').hover(function() {
+        $(this).addClass('open');
+    },
+    function() {
+        $(this).removeClass('open');
+    });
+});
+</script>
+	
 <!--===============================================================================================-->
 	<script src="{% static 'js/main.js '%}"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
 </body>
 </html>

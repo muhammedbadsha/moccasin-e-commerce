@@ -98,7 +98,7 @@ AUTH_USER_MODEL = 'accounts.User'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'MoccaData',  
+        'NAME': 'moccasinoff',  
         'USER': 'postgres',
         'PASSWORD': 'badsha',
         'HOST': 'localhost',
@@ -159,7 +159,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
+TWILIO_NUMBER = config('TWILIO_NUMBER')
 ACCOUNT_SID = config('ACCOUNT_SID')
 AUTH_TOKEN = config('AUTH_TOKEN')
 SERVICE_SID = config('SERVICE_SID')

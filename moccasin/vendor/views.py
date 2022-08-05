@@ -1,13 +1,15 @@
 from unicodedata import category
 from django.http import HttpResponse
 from django.shortcuts import render,redirect
+from category.models import Category
 from .forms import VendorForm
 from accounts.models import  User
 from django.contrib import auth,messages
 from django.contrib.auth.decorators import login_required
 # product add 
-from product.forms import ProductForm
-from product.models import Product
+from .forms import add_product_form
+from django.utils.text import slugify
+from product.models import Product,Size_chart
 # verification
 from django.template.loader import render_to_string
 from django.core import mail
@@ -17,7 +19,7 @@ from django.utils.http import urlsafe_base64_decode
 from django.utils.encoding import force_bytes
 from django.contrib.auth.tokens import default_token_generator
 from django.conf import settings
-print(settings.ADMIN_EMAIL)
+
 
 
 
@@ -75,7 +77,7 @@ def vendor_register(request):
 
             #verification
             current_site = get_current_site(request)  
-            mail_subject = 'Reset Your Password'
+            mail_subject = 'Register Your Account'
             message = render_to_string('admin/admin_approve_req.html',{
                 'user':user,
                 'domain':current_site,
@@ -104,6 +106,126 @@ def vendor_logout(request):
     return redirect('vendor_login')
 
 
+
+
+def tables(request):
+    product = Product.objects.all()
+    context = {
+        'product':product
+    }
+    return render(request,'vendor/pages/tables.html',context)
+
+def delete_product(request,id):
+    product = Product.objects.get(id=id)
+    product.delete()
+    return redirect('tables')
+
+def search_product(request):
+    try:
+        product_name=request.POST['product_name']
+        product = Product.objects.get(product_name=product_name)
+        context = {
+            "product":product,
+        }
+    except:
+        return HttpResponse('<h1>this user could not available</h1>')
+    return render(request,'vendor/pages/search_tables.html',context)
+
+def add_product(request):
+    if request.user.is_authenticated:
+        user=request.user
+        print(user)
+    else:
+        return redirect("vendor_login")
+    if request.method == 'POST':
+        form = add_product_form(request.POST,request.FILES)
+        if form.is_valid:
+            product_name = request.POST['product_name']
+            category = Category.objects.get(id=request.POST['category'])
+            
+            discription = request.POST['discription']
+            size_chart =Size_chart.objects.get(id=request.POST['size_chart'])
+            
+            price = request.POST['price']
+            image = request.POST['image']
+            stock = request.POST['stock']
+            slug = slugify(product_name)
+            product = Product.objects.create(
+                product_name=product_name,
+                size_chart=size_chart,
+                category=category,
+                discription=discription,
+                slug = slug,
+                price=price,
+                image=image,
+                stock=stock,
+                )
+            product.slug=slug
+            product.save()
+            #verification
+            current_site = get_current_site(request)  
+            mail_subject = 'Register Your Account'
+            message = render_to_string('admin/admin_product_approve.html',{
+                'user':user,
+                'domain':current_site,
+                'uid':urlsafe_base64_encode(force_bytes(user.pk)),
+                'token':default_token_generator.make_token(user),
+            })  
+            to_email = settings.ADMIN_EMAIL
+            send_email = mail.EmailMessage(mail_subject,message,settings.EMAIL_HOST_USER,[to_email])  
+            send_email.send()
+            messages.success(request,'product is requsted to admin.z')
+            return redirect('tables')
+    else:
+
+        form = add_product_form(initial={'slug': 'no need'})
+    
+
+    return render(request,'vendor/pages/add_product.html', {'forms':form,})
+
+
+
+def view_product(request,id):
+    product_view = Product.objects.get(id = id)
+    context = {
+        'products_view':product_view,
+    }
+    return render(request,'vendor/pages/view_product.html',context)
+
+
+def update_product(request,id):
+    if request.method == 'POST':
+        product_name = request.POST['product_name']
+        category = request.POST['category']
+        discription = request.POST['discription']
+        size_chart = request.POST['size_chart']
+        price = request.POST['price']
+        image = request.POST['image']
+        slug = slugify(product_name)
+        stock = request.POST['stock']
+        user = Product.objects.create(
+            product_name=product_name,
+            size_chart=size_chart,
+            category=category,
+            discription=discription,
+            slug = slug,
+            price=price,
+            image=image,
+            stock=stock,
+            )
+        user.slug=slug
+        user.is_available = True
+        user.permition=True
+        user.save()
+
+    product_update = Product.objects.get(id=id)
+    context={
+        'product_update':product_update,
+    }
+
+    return render(request,'vendor/pages/update_product.html',context)
+
+
 def billing(request):
     return render(request,'vendor/pages/billing.html')
 
@@ -111,47 +233,13 @@ def billing(request):
 def dashboard(request):
     return render(request,'vendor/pages/dashboard.html')
 
-def profile(request):
+def product_profile(request):
+   
     return render(request,'vendor/pages/profile.html')
 
 def rtl(request):
     return render(request,'vendor/pages/rtl.html')
 
-
-def tables(request):
-    return render(request,'vendor/pages/tables.html')
-
-
 def virtual_reality(request):
     return render(request,'vendor/pages/virtual_reality.html')
 
-
-
-def add_product(request):
-    if request.method == 'POST':
-        form = ProductForm(request.POST)
-        if form.is_valid:
-            product_name = request.POST['product_name']
-            category = request.POST['category']
-            discription = request.POST['discription']
-            product_size = request.POST['product_size']
-            price = request.POST['price']
-            image = request.POST['image']
-            stock = request.POST['stock']
-            user = Product.objects.create(
-                product_name=product_name,
-                category=category,
-                discription=discription,
-                product_size=product_size,
-                price=price,
-                image=image,
-                stock=stock,
-                )
-            user.save()
-            return redirect('add_product')
-    else:
-
-        form = ProductForm()
-    
-
-    return render(request,'vendor/pages/add_product.html', {'forms':form,})
