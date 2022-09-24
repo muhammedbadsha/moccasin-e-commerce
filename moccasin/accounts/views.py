@@ -1,7 +1,9 @@
 from random import randint
 from django.conf import settings
+from django.forms import ValidationError
+from cart.models import CartItem
 from product.models import Product
-
+from order.models import order
 from .forms import RegisterForm
 from .models import User
 from django.shortcuts import redirect, render
@@ -66,17 +68,20 @@ def otp(request):
             otp = request.POST['otp']
             if otp == oldotp:
                 user.is_active = True
+                user.is_user = True
                 user.save()
                 return redirect('user_login')
             else:
+                messages.error(request,"OTP is incorrect!!")
                 return redirect('otp')
         except:
+           
         # print(user)
-            messages.error(request,"user does't exists!!")
+            messages.error(request,"phone number doesnot exist!!")
             return redirect('otp')
            
             print(oldotp)
-           
+    # messages.error(request,"phone number does't exists!!")
 
     return render(request,'user/user_otp.html')
 
@@ -91,11 +96,20 @@ def user_login(request):
         print(email,password)
         user = auth.authenticate(email=email, password=password)
         print(user)
-        if user is not None and user.is_active:
+        if user is not None and user.is_active and user.is_admin:
+            auth.login(request, user)
+            # Redirect to a success page.
+            return redirect('admin_home')
+        if user is not None and user.is_active and user.is_vendor:
+            print('this work')
+            auth.login(request, user)
+            # Redirect to a success page.
+            return redirect('vendor_home')
+        if user is not None and user.is_active and user.is_user:
             auth.login(request, user)
             # Redirect to a success page.
             return redirect('home')
-            
+
         else:
             # Return an 'invalid login' error message.
           
@@ -115,9 +129,17 @@ def user_logout(request):
 
 # @login_required
 def home(request):
+    home=request.user
+    print(home)
     product = Product.objects.all()
+    try:
+        cart = CartItem.objects.filter(customer = request.user).all()
+    except:
+        cart=None
+    
     context={
         'product':product,
+        'cartItem':cart,
     }
 
     return render(request,'user/home.html',context)
@@ -141,8 +163,8 @@ def forgot_password(request):
             send_email = mail.EmailMessage(mail_subject,message,settings.EMAIL_HOST_USER,[to_email])  
             print(settings.EMAIL_HOST_USER,to_email)
             send_email.send()
-            print(send_email.send())
-            print('tattuddddddddddddddd')
+           
+            
             return redirect('user_login')
         else:
             messages.info(request,'email does not exists')
@@ -198,23 +220,32 @@ def reset_password(request):
 def about(request):
     return render(request,'user/about.html')
 
-def contact(request):
-    return render(request,'user/contact.html')
+def order_status(request):
+    user = request.user
+    order_product = order.objects.filter(user=user).all()
+    
+
+    context = {
+        "order_product":order_product,
+    }
+    return render(request,'user/contact.html',context)
+
+     
+def order_status_click(request,id):
+    print(id)
+    return redirect('order_status')
 
 def blog(request):
     return render(request,'user/blog.html')
 
 
-def shoping_cart(request):
-    return render(request,'user/shoping_cart.html')
 
 
 def blog_detail(request):
     return render(request,'user/blog_detail.html')
 
 
-# def about(request):
-#     return render(request,'user/about.html')
+
 
 
 # def about(request):

@@ -28,6 +28,7 @@
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="{% static 'css/util.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+	<link rel="stylesheet" href="{% static 'css/contact.css' %}">
 <!--===============================================================================================-->
 </head>
 <body class="animsition">
@@ -68,7 +69,7 @@
 					
 					<!-- Logo desktop -->		
 					<a href="#" class="logo">
-						<img src="{% static 'images/icons/logo-01.png' %}" alt="IMG-LOGO">
+						<h1><b>MOCCA</b>SIN</h1>
 					</a>
 
 					<!-- Menu desktop -->
@@ -100,7 +101,7 @@
 							</li>
 
 							<li>
-								<a href="{% url 'contact' %}">Contact</a>
+								<a href="{% url 'order_status' %}">Order Status</a>
 							</li>
 						</ul>
 					</div>	
@@ -127,7 +128,7 @@
 		<div class="wrap-header-mobile">
 			<!-- Logo moblie -->		
 			<div class="logo-mobile">
-				<a href="index.html"><img src="images/icons/logo-01.png" alt="IMG-LOGO"></a>
+				<a href="index.html"><img src="{% static 'images/icons/logo-01.png' %}" alt="IMG-LOGO"></a>
 			</div>
 
 			<!-- Icon header -->
@@ -323,98 +324,52 @@
 
 
 	<!-- Title page -->
-	<section class="bg-img1 txt-center p-lr-15 p-tb-92" style="background-image: url('images/bg-01.jpg');">
+	<!-- <section class="bg-img1 txt-center p-lr-15 p-tb-92" style="background-image: url('images/bg-01.jpg');">
 		<h2 class="ltext-105 cl0 txt-center">
 			Contact
 		</h2>
-	</section>	
+	</section>	 -->
 
 
 	<!-- Content page -->
-	<section class="bg0 p-t-104 p-b-116">
-		<div class="container">
-			<div class="flex-w flex-tr">
-				<div class="size-210 bor10 p-lr-70 p-t-55 p-b-70 p-lr-15-lg w-full-md">
-					<form>
-						<h4 class="mtext-105 cl2 txt-center p-b-30">
-							Send Us A Message
-						</h4>
-
-						<div class="bor8 m-b-20 how-pos4-parent">
-							<input class="stext-111 cl2 plh3 size-116 p-l-62 p-r-30" type="text" name="email" placeholder="Your Email Address">
-							<img class="how-pos4 pointer-none" src="{% static 'images/icons/icon-email.png' %}" alt="ICON">
-						</div>
-
-						<div class="bor8 m-b-30">
-							<textarea class="stext-111 cl2 plh3 size-120 p-lr-28 p-tb-25" name="msg" placeholder="How Can We Help?"></textarea>
-						</div>
-
-						<button class="flex-c-m stext-101 cl0 size-121 bg3 bor1 hov-btn3 p-lr-15 trans-04 pointer">
-							Submit
-						</button>
-					</form>
+	<div class="container">
+		<article class="card">
+			<header class="card-header"> My Orders / Tracking </header>
+			<div class="card-body">
+				<h6>Order ID: OD45345345435</h6>
+				<article class="card">
+					<div class="card-body row">
+						<div class="col"> <strong>Estimated Delivery time:</strong> <br>29 nov 2019 </div>
+						<div class="col"> <strong>Shipping BY:</strong> <br> BLUEDART, | <i class="fa fa-phone"></i> +1598675986 </div>
+						<div class="col"> <strong>Status:</strong> <br> Picked by the courier </div>
+						<div class="col"> <strong>Tracking #:</strong> <br> BD045903594059 </div>
+					</div>
+				</article>
+				<div class="track" id="status">
+					<div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">Order confirmed</span> </div>
+					<div class="step active"> <span class="icon"> <i class="fa fa-user"></i> </span> <span class="text"> Picked by courier</span> </div>
+					<div class="step"> <span class="icon"> <i class="fa fa-truck"></i> </span> <span class="text"> On the way </span> </div>
+					<div class="step"> <span class="icon"> <i class="fa fa-box"></i> </span> <span class="text">Ready for pickup</span> </div>
 				</div>
-
-				<div class="size-210 bor10 flex-w flex-col-m p-lr-93 p-tb-30 p-lr-15-lg w-full-md">
-					<div class="flex-w w-full p-b-42">
-						<span class="fs-18 cl5 txt-center size-211">
-							<span class="lnr lnr-map-marker"></span>
-						</span>
-
-						<div class="size-212 p-t-2">
-							<span class="mtext-110 cl2">
-								Address
-							</span>
-
-							<p class="stext-115 cl6 size-213 p-t-18">
-								Coza Store Center 8th floor, 379 Hudson St, New York, NY 10018 US
-							</p>
-						</div>
-					</div>
-
-					<div class="flex-w w-full p-b-42">
-						<span class="fs-18 cl5 txt-center size-211">
-							<span class="lnr lnr-phone-handset"></span>
-						</span>
-
-						<div class="size-212 p-t-2">
-							<span class="mtext-110 cl2">
-								Lets Talk
-							</span>
-
-							<p class="stext-115 cl1 size-213 p-t-18">
-								+1 800 1236879
-							</p>
-						</div>
-					</div>
-
-					<div class="flex-w w-full">
-						<span class="fs-18 cl5 txt-center size-211">
-							<span class="lnr lnr-envelope"></span>
-						</span>
-
-						<div class="size-212 p-t-2">
-							<span class="mtext-110 cl2">
-								Sale Support
-							</span>
-
-							<p class="stext-115 cl1 size-213 p-t-18">
-								contact@example.com
-							</p>
-						</div>
-					</div>
-				</div>
+				<hr>
+				<ul class="row">
+					{% for order in order_product %}
+					<li class="col-sm-3" >
+						<figure class="itemside mb-3" hx-get="{% url 'order_status_click' order.id %}" hx-trigger="click" hx-swap="outerHTML" hx-target="#status">
+							<div class="aside"><img src="{{order.product.image.url}}" class="img-sm border"></div>
+							<figcaption class="info align-self-center">
+								<p class="title">{{ order.product}} <br>{{ order.product.size_chart}}</p> <span class="text-muted">${{order.product.price}} </span>
+							</figcaption>
+						</figure>
+					</li>
+					{% endfor %}
+					
+				</ul>
+				<hr>
+				<a href="{% url 'home' %}" class="btn btn-warning" data-abc="true"> <i class="fa fa-chevron-left"></i> Back to home</a>
 			</div>
-		</div>
-	</section>	
-	
-	
-	<!-- Map -->
-	<div class="map">
-		<div class="size-303" id="google_map" data-map-x="40.691446" data-map-y="-73.886787" data-pin="images/icons/pin.png" data-scrollwhell="0" data-draggable="1" data-zoom="11"></div>
+		</article>
 	</div>
-
-
 
 	<!-- Footer -->
 	<footer class="bg3 p-t-75 p-b-32">
@@ -568,7 +523,12 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 			<i class="zmdi zmdi-chevron-up"></i>
 		</span>
 	</div>
-
+	<script src="https://unpkg.com/htmx.org@1.6.0"></script>
+	<script>
+		document.body.addEventListener('htmx:configRequest', (event) => {
+			event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}'; //insert csrf token when performing AJAX request 
+		})
+		</script>
 <!--===============================================================================================-->	
 	<script src="{% static 'vendor/jquery/jquery-3.2.1.min.js' %}"></script>
 <!--===============================================================================================-->

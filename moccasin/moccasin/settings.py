@@ -48,6 +48,10 @@ INSTALLED_APPS = [
     'vendor.apps.VendorConfig',
     'product.apps.ProductConfig',
     'category',
+    'cart',
+    'checkout',
+    'order',
+    "django_htmx",
 
    
 ]
@@ -98,7 +102,7 @@ AUTH_USER_MODEL = 'accounts.User'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'moccasinoff',  
+        'NAME': 'moccasinecom',  
         'USER': 'postgres',
         'PASSWORD': 'badsha',
         'HOST': 'localhost',
@@ -152,7 +156,8 @@ MESSAGE_TAGS = {
 
 # STATIC_ROOT = STATIC_ROOT = BASE_DIR / "staticfiles"
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
@@ -169,3 +174,9 @@ EMAIL_USE_TLS =config('EMAIL_USE_TLS',default=False, cast=bool)
 EMAIL_PORT = config('EMAIL_PORT',default=25,cast=int)
 EMAIL_HOST_USER = config('EMAIL_HOST_USER',default='')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD',default='')
+
+# RAZORPAY
+
+
+KEY_ID = 'rzp_test_ahCqdIVkJ6dOlg'
+KEY_SECRET = 'k6sUHaB8qydWYubaIGcknkzF'

@@ -1,5 +1,7 @@
+from tkinter import CASCADE
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.core.validators import RegexValidator
 import uuid
 
 
@@ -30,6 +32,7 @@ class MyUserManager(BaseUserManager):
             phone_number=phone_number
         )
         user.user_role = 'user'
+        user.is_user = False
         user.is_active = False
         user.set_password(password)
         user.save(using=self._db)
@@ -50,7 +53,7 @@ class MyUserManager(BaseUserManager):
         user.user_role = "admin"
         user.is_admin = True
         user.is_active = True
-        user.is_vendor = True
+        user.is_vendor = False
         user.is_staff = True
         user.is_superadmin = True
 
@@ -67,11 +70,16 @@ class User(AbstractBaseUser):
     username = models.CharField(max_length=50)
     email = models.CharField(max_length=50, unique=True)
     phone_number = models.CharField(
-        ('mobile number'), max_length=10, unique=True)
+        ('mobile number'),
+        validators=[RegexValidator(r'^\d\d\d\d\d\d\d\d\d\d$',
+        message='phone number must have 10 digits')],
+        max_length=10, 
+        unique=True
+        )
     city = models.CharField(max_length=150,null=True)
     state = models.CharField(max_length=150,null=True)
     zip_code = models.IntegerField(null=True)
-    otp =  models.CharField(max_length=100, null=True)
+    otp =  models.CharField(max_length=100, default=True)
 
    
     # required
@@ -80,7 +88,9 @@ class User(AbstractBaseUser):
     is_admin = models.BooleanField(default=False)
     is_vendor = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
+    is_user = models.BooleanField(default=False)
     is_staff = models.BooleanField(default = True)
+    is_address = models.BooleanField(default=False)
     is_superadmin = models.BooleanField(default=False)
 
     USERNAME_FIELD = 'email'
@@ -89,10 +99,16 @@ class User(AbstractBaseUser):
     objects = MyUserManager()
 
     def _str_(self):
-        return self.email
+        return self.username
 
     def has_perm(self, perm, obj=None):
         return self.is_admin
 
     def has_module_perms(self, add_labels):
         return True
+
+
+
+
+    
+

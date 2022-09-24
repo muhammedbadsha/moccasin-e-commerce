@@ -130,6 +130,7 @@ Input, textarea : 14px/1.6 '', Arial, sans-serif;
   transform: translate(-50%, -50%);
 }
 
+
 .loader05 {
   width: 56px;
   height: 56px;
@@ -1796,6 +1797,13 @@ button.mfp-close {
   cursor: pointer;
 }
 
+.btn-num-qty-up,
+.btn-num-qty-down {
+  width: 45px;
+  height: 100%;
+  cursor: pointer;
+}
+
 .num-product {
   width: calc(100% - 90px);
   height: 100%;
@@ -2496,8 +2504,8 @@ input.num-product::-webkit-inner-spin-button {
 }
 
 .size-116 {
-  width: 100%;
-  height: 50px;
+  width: 87%;
+  height: 48px; 
 }
 
 .size-117 {

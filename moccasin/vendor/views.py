@@ -1,7 +1,15 @@
+from datetime import date
+from multiprocessing import context
 from unicodedata import category
+from xml.dom import ValidationErr
 from django.http import HttpResponse
 from django.shortcuts import render,redirect
 from category.models import Category
+from order.models import CashOnDelivery
+
+from order.models import Payment
+from order.models import order
+from product.forms import ProductForm
 from .forms import VendorForm
 from accounts.models import  User
 from django.contrib import auth,messages
@@ -23,24 +31,24 @@ from django.conf import settings
 
 
 
-def vendor_login(request):
-    if request.user.is_authenticated:
-        return redirect('vendor_home')
-    if request.method == 'POST':
-        email =request.POST['Email']
-        password =request.POST['Password']
-        print(email,password)
-        user = auth.authenticate(email=email,password=password)
-        print(user)
-        if user is not None and user.is_active and user.is_vendor:
-            auth.login(request,user)
-            return redirect('vendor_home')
-        # return HttpResponse('<h1>Page was found</h1>')
-        messages.error(request,'invalid credential')
-        return redirect('vendor_login')
+# def vendor_login(request):
+#     if request.user.is_authenticated:
+#         return redirect('vendor_home')
+#     if request.method == 'POST':
+#         email =request.POST['Email']
+#         password =request.POST['Password']
+#         print(email,password)
+#         user = auth.authenticate(email=email,password=password)
+#         print(user)
+#         if user is not None and user.is_active and user.is_vendor:
+#             auth.login(request,user)
+#             return redirect('vendor_home')
+#         # return HttpResponse('<h1>Page was found</h1>')
+#         messages.error(request,'invalid credential')
+#         return redirect('vendor_login')
 
-    else:
-        return render(request,'vendor/vendor_login.html')
+#     else:
+#         return render(request,'vendor/vendor_login.html')
     
 
 def vendor_register(request):
@@ -87,7 +95,7 @@ def vendor_register(request):
             to_email = settings.ADMIN_EMAIL
             send_email = mail.EmailMessage(mail_subject,message,settings.EMAIL_HOST_USER,[to_email])  
             send_email.send()
-            return redirect('vendor_login')
+            return redirect('user_login')
 
            
     else:
@@ -97,13 +105,50 @@ def vendor_register(request):
 
 @login_required
 def vendor_home(request):
-    
-    return render(request,'vendor/vendor_home.html')
+    if request.user.is_authenticated:
+        if request.user.is_vendor==True:
+            pass
+        else:
+            return redirect('user_login')
+    try:
+        today = date.today()
+        user = request.user
+        payment = Payment.objects.filter(user = user).all()
+        orderItem = order.objects.all()
+        cash_on_delevery = CashOnDelivery.objects.all()
+        for i in range(len(orderItem)):
+            print(orderItem[i])
+
+        # print(payment)
+        total_sales = 0
+        today_total_market=0
+        for j in range(len(payment)):
+            
+            if payment[j].paid_or_not == True and payment[j].created_at==today:
+                today_total_market = today_total_market + int(payment[j].amount_paid)
+                print(payment[j].created_at)
+
+            if payment[j].paid_or_not == True:
+                total_sales = total_sales + int(payment[j].amount_paid)
+
+
+
+        print(today)
+        print(today_total_market)
+        
+    except:
+        pass
+
+    context = {
+        'today_total_market':today_total_market,
+        'total_sales':total_sales,
+    }
+    return render(request,'vendor/vendor_home.html',context)
 
 @login_required
 def vendor_logout(request):    
     auth.logout(request)
-    return redirect('vendor_login')
+    return redirect('user_login')
 
 
 
@@ -134,48 +179,61 @@ def search_product(request):
 def add_product(request):
     if request.user.is_authenticated:
         user=request.user
-        print(user)
+        
     else:
-        return redirect("vendor_login")
-    if request.method == 'POST':
-        form = add_product_form(request.POST,request.FILES)
-        if form.is_valid:
-            product_name = request.POST['product_name']
-            category = Category.objects.get(id=request.POST['category'])
+        return redirect("user_login")
+    try:
+        if request.method == 'POST':
+            form = add_product_form(request.POST,request.FILES)
+            if form.is_valid:
+                product_name = request.POST['product_name']
+                category = Category.objects.get(id=request.POST['category'])
+                
+                discription = request.POST['discription']
+                size_chart =Size_chart.objects.get(id=request.POST['size_chart'])
+                
+                price = request.POST['price']
+                stock = request.POST['stock']
+                image = request.FILES['image']
+                product_gen=request.POST['product_gen']
+                slug = slugify(product_name)
+                
+                product = Product.objects.create(
+                    product_name=product_name,
+                    category=category,
+                    discription=discription,
+                    slug = slug,
+                    price=price,
+                    image=image,
+                    stock=stock,
+                    product_gen=product_gen,
+                    size_chart=size_chart,
+                    )
+                product.is_available=True
+                product.permition=True
+                product.slug=slug
+                
+                product.save()
+                return redirect('tables')
             
-            discription = request.POST['discription']
-            size_chart =Size_chart.objects.get(id=request.POST['size_chart'])
-            
-            price = request.POST['price']
-            image = request.POST['image']
-            stock = request.POST['stock']
-            slug = slugify(product_name)
-            product = Product.objects.create(
-                product_name=product_name,
-                size_chart=size_chart,
-                category=category,
-                discription=discription,
-                slug = slug,
-                price=price,
-                image=image,
-                stock=stock,
-                )
-            product.slug=slug
-            product.save()
+    except :
+        
+        messages.error(request,'product name is already entered!!' 'try another one')
+                
             #verification
-            current_site = get_current_site(request)  
-            mail_subject = 'Register Your Account'
-            message = render_to_string('admin/admin_product_approve.html',{
-                'user':user,
-                'domain':current_site,
-                'uid':urlsafe_base64_encode(force_bytes(user.pk)),
-                'token':default_token_generator.make_token(user),
-            })  
-            to_email = settings.ADMIN_EMAIL
-            send_email = mail.EmailMessage(mail_subject,message,settings.EMAIL_HOST_USER,[to_email])  
-            send_email.send()
-            messages.success(request,'product is requsted to admin.z')
-            return redirect('tables')
+            # current_site = get_current_site(request)  
+            # mail_subject = 'Register Your Account'
+            # message = render_to_string('admin/admin_product_approve.html',{
+            #     'user':user,
+            #     'domain':current_site,
+            #     'uid':urlsafe_base64_encode(force_bytes(user.pk)),
+            #     'token':default_token_generator.make_token(user),
+            # })  
+            # to_email = settings.ADMIN_EMAIL
+            # send_email = mail.EmailMessage(mail_subject,message,settings.EMAIL_HOST_USER,[to_email])  
+            # send_email.send()
+            # messages.success(request,'product is requsted to admin.z')
+
     else:
 
         form = add_product_form(initial={'slug': 'no need'})
@@ -194,36 +252,49 @@ def view_product(request,id):
 
 
 def update_product(request,id):
+    if request.user.is_authenticated:
+        user=request.user
+        product_update = Product.objects.get(id=id)
+    else:
+        return redirect("user_login")
     if request.method == 'POST':
-        product_name = request.POST['product_name']
-        category = request.POST['category']
-        discription = request.POST['discription']
-        size_chart = request.POST['size_chart']
-        price = request.POST['price']
-        image = request.POST['image']
-        slug = slugify(product_name)
-        stock = request.POST['stock']
-        user = Product.objects.create(
-            product_name=product_name,
-            size_chart=size_chart,
-            category=category,
-            discription=discription,
-            slug = slug,
-            price=price,
-            image=image,
-            stock=stock,
-            )
-        user.slug=slug
-        user.is_available = True
-        user.permition=True
-        user.save()
+        form = ProductForm(request.POST,request.FILES,instance=product_update)
+       
+        if form.is_valid:
+            
+            form.save()
+           
+            
+            #verification
+            # current_site = get_current_site(request)  
+            # mail_subject = 'Register Your Account'
+            # message = render_to_string('admin/admin_product_approve.html',{
+            #     'user':user,
+            #     'domain':current_site,
+            #     'uid':urlsafe_base64_encode(force_bytes(user.pk)),
+            #     'token':default_token_generator.make_token(user),
+            # })  
+            # to_email = settings.ADMIN_EMAIL
+            # send_email = mail.EmailMessage(mail_subject,message,settings.EMAIL_HOST_USER,[to_email])  
+            # send_email.send()
+            # messages.success(request,'product is requsted to admin.z')
+            return redirect('tables')
+    else:
+
+        form = add_product_form(initial={'slug': 'no need'})
 
     product_update = Product.objects.get(id=id)
+    form = ProductForm(instance=product_update)
+    print(product_update.id)
     context={
-        'product_update':product_update,
+        'product_update':form,
+        'product_detail':product_update,
     }
 
     return render(request,'vendor/pages/update_product.html',context)
+
+
+    
 
 
 def billing(request):

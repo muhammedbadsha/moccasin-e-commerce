@@ -34,3 +34,15 @@ class AdminLoginForm(ModelForm):
             raise forms.ValidationError('password is incorrect')
 
 
+
+
+
+class updateUserForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'email', 'phone_number','user_role']
+
+class updateVendorForm(forms.ModelForm):
+    class Meta:
+        modal = User
+        fields = ['first_name', 'last_name', 'email', 'phone_number','shop_name','user_role','city','state',]

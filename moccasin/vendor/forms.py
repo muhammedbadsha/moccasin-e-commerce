@@ -10,6 +10,7 @@ class VendorForm(ModelForm):
     confirm_password = forms.CharField(widget =forms.PasswordInput(attrs={
     'Placeholder': 'confirm password'
     }))
+    first_name=forms.CharField()
     class Meta:
         model = User
         fields = ['first_name','last_name','shop_name','email','phone_number','city','state','zip_code']
@@ -44,7 +45,7 @@ class VendorForm(ModelForm):
 class add_product_form(forms.ModelForm):
     class Meta:
         model = Product
-        fields = [ 'image', 'product_name', 'category', 'stock','size_chart','price', 'discription','is_available']
+        fields = [ 'image', 'product_name', 'category', 'stock','size_chart','price', 'discription','product_gen','is_available']
         widgets = {
             "images":forms.ClearableFileInput(attrs={
                 "class":"form-control",

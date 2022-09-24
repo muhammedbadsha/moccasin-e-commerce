@@ -24,10 +24,11 @@
                         <h1><b>MOCCA</b>SIN</h1>
                         <h2>Sign up</h2>
                         </div> 
-                        <form action="{% url 'vendor_register' %}" method="post" class="auth-form">
+                        <form action="{% url 'vendor_register' %}" method="post" class="auth-form" novalidate>
                             {% csrf_token %}
                            {% for fom in form %}
                             <div class="form-group">
+                                {{fom.errors}}
                                 <label for="username">{{fom.label}}</label><br>
                                 {{fom}}
                                 <!-- <input type="text" name="username" id="username" class="form-control" placeholder="Name"> -->

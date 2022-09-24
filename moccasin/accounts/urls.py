@@ -14,9 +14,10 @@ urlpatterns = [
     
     
     path('blog',views.blog,name='blog'),
-    path('shoping_cart',views.shoping_cart,name='shoping_cart'),
+    path('order_status',views.order_status,name='order_status'),
+    
+    path('order_status_click/<id>/',views.order_status_click,name='order_status_click'),
     path('blog_detail',views.blog_detail,name='blog_detail'),
 
     path('about',views.about,name='about'),
-    path('contact',views.contact,name='contact'),
 ]

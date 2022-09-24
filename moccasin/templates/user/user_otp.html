@@ -36,7 +36,22 @@
                     <input class="form-check-input" type="checkbox" value="" id="form1Example3" />
                     <label class="form-check-label" for="form1Example3"> Remember password </label>
                 </div> -->
-                
+                {% if messages %}
+                <div id="messages" class="container">
+                <ul class="messages">
+                    {% for message in messages %}
+                    <div{% if message.tags %} class="alert alert-{{ message.tags }}"{% endif %} role="alert">
+                    <button type="button" class="close"  data-dismiss="alert">
+                        <span aria-hidden="true">
+                            &times;
+                        </span>
+                    </button>    
+                    {{ message }}</div>
+                    {% endfor %}
+                </ul>
+                 </div>
+                {% endif %}
+                {{form.non_field_errors}}
                 <button class="btn btn-primary btn-lg btn-block" type="submit">Login</button>
                 
                 
@@ -51,6 +66,10 @@
 </div>
 </div>
 </section>
+<script>
+    setTimeout(function(){
+        $('#messages').fadeOut('slow')},4000)
+</script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>
 </html>

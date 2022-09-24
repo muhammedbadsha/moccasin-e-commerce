@@ -1,4 +1,3 @@
-
 (function ($) {
     "use strict";
 
@@ -216,13 +215,43 @@
     [ +/- num product ]*/
     $('.btn-num-product-down').on('click', function(){
         var numProduct = Number($(this).next().val());
-        if(numProduct > 0) $(this).next().val(numProduct - 1);
+        if(numProduct > 1) $(this).next().val(numProduct - 1);
     });
 
     $('.btn-num-product-up').on('click', function(){
         var numProduct = Number($(this).prev().val());
         $(this).prev().val(numProduct + 1);
     });
+
+
+    
+
+
+
+
+
+
+    // document.querySelector('.btn-num-product-down').setAttribute("disabled","disabeld");
+
+    // var valueCount
+
+    // document.querySelector('.btn-num-product-up').addEventListener("click", function(){
+    //     valueCount = document.getElementById("productQuantity").value
+    //     valueCount++;
+    //     document.getElementById("productQuantity").value=valueCount;
+    //     if(valueCount > 1){
+    //     document.querySelector(".btn-num-product-down").removeAttribute("disabled");
+    //     document.querySelector(".btn-num-product-down").classList.remove("disabled")
+    //     }
+    // })
+    // document.querySelector('.btn-num-product-down').addEventListener("click", function(){
+    //     valueCount = document.getElementById("productQuantity").value;
+    //     valueCount--;
+    //     document.getElementById("productQuantity").value=valueCount;
+    //     if(valueCount == 1){
+    //         document.querySelector(".btn-num-product-down").setAttribute("disabled","disabled")
+    //     }
+    // })
 
     /*==================================================================
     [ Rating ]*/
@@ -276,6 +305,7 @@
     $('.js-hide-modal1').on('click',function(){
         $('.js-modal1').removeClass('show-modal1');
     });
+    
 
 
 

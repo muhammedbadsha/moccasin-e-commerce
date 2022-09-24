@@ -2,9 +2,12 @@ from django.urls import path
 from .import views
 
 urlpatterns = [
-    path('admin_home',views.admin_home,name='admin_home'),
-    path('',views.admin_login,name='admin_login'),
+    path('',views.admin_home,name='admin_home'),
+    # path('',views.admin_login,name='admin_login'),
     path('admin_logout',views.admin_logout,name='admin_logout'),
+
+    # user table controls
+    path('admin_edit_profile/<id>',views.admin_edit_profile,name='admin_edit_profile'),
 
 
     path('admin_charts_chartjs',views.admin_charts_chartjs,name='admin_charts_chartjs'),

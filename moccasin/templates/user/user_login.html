@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Unplug UI</title>
+    <title>MOCCAsin</title>
     <link rel="stylesheet" href="{% static 'css/user_login/unplug-ui-kit.css' %}">
     <link rel="stylesheet" href="{% static 'css/user_login/unplug-ui-kit-demo.css' %}">
     <link rel="stylesheet" href="{% static 'css/user_login/materialdesignicons.min.css' %}">
@@ -28,19 +28,9 @@
                             </div> 
                         <h2>Sign in</h2>
                         <!-- <p>Free access to our dashboard</p> -->
-                        <form action="{% url 'user_login' %}"  method="post" class="auth-form">
+                        <form action="{% url 'user_login' %}"  method="post" class="auth-form"  enctype="multipart/form-data">
                             {% csrf_token %}
-                            {% if messages %}
-                            <div id="messages" class="container">
-                            <ul class="messages">
-                                {% for message in messages %}
-                                <div{% if message.tags %} class="alert alert-{{ message.tags }}"{% endif %} role="alert">
-                                <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span></button>    
-                                {{ message }}</div>
-                                {% endfor %}
-                            </ul>
-                             </div>
-                            {% endif %}
+                           
                             <div class="form-group">
                                 <label for="username" class="sr-only">Email</label>
                                 
@@ -62,7 +52,22 @@
                             </div>
 
                         </form>
-                        <h5 class="text-left mb-3">Sign in to Dribbble</h5>
+                        {% if messages %}
+                        <div id="messages" class="container">
+                        <ul class="messages">
+                            {% for message in messages %}
+                            <div{% if message.tags %} class="alert alert-{{ message.tags }}"{% endif %} role="alert">
+                            <button type="button" class="close"  data-dismiss="alert">
+                                <span aria-hidden="true">
+                                    &times;
+                                </span>
+                            </button>    
+                            {{ message }}</div>
+                            {% endfor %}
+                        </ul>
+                         </div>
+                        {% endif %}
+                        <p>you don't have an account <a href="{% url 'user_register' %}">click here</a></p>
                         <p class="mb-0 d-flex">
                             <a href="#" class="btn btn-light btn-block mr-2">Sign in with google</a>
                             <a href="#" class="btn btn-facebook mr-2"> <i class="mdi mdi-facebook"></i></a>
@@ -75,9 +80,7 @@
     </main>
     <script>
         setTimeout(function(){
-            $('#messages').fadeOut('slow')
-        
-        },4000)
+            $('#messages').fadeOut('slow')},4000)
     </script>
     
 
