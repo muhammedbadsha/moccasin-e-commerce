@@ -101,13 +101,13 @@ AUTH_USER_MODEL = 'accounts.User'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'moccasinecom',  
-        'USER': 'postgres',
-        'PASSWORD': 'badsha',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': config('DATABASENAME'),  
+        'USER': config('DATABASEUSER'),
+        'PASSWORD': config('DATABASEPASSWORD'),
         'HOST': 'localhost',
-        'PORT': ''
-    }
+        'PORT': '5432'
+    }   
 }
 
 
@@ -149,6 +149,9 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR,'static')
     ]  
+
+PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
+STATIC_ROOT = os.path.join(PROJECT_DIR, 'static')
 MESSAGE_TAGS = {
     messages.ERROR: 'danger',
     50: 'critical',
@@ -178,5 +181,5 @@ EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD',default='')
 # RAZORPAY
 
 
-KEY_ID = 'rzp_test_ahCqdIVkJ6dOlg'
-KEY_SECRET = 'k6sUHaB8qydWYubaIGcknkzF'
+KEY_ID = config('KEY_ID',default='')
+KEY_SECRET = config('KEY_SECRET',default='')

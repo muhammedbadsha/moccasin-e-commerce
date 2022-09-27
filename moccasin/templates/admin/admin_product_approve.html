@@ -1,0 +1,16 @@
+{% autoescape off %}
+approve product permition
+--------------
+email {{user.email}}
+username {{user.first_name}}
+shop {{user.shop_name}}
+mobail number {{user.phone_number}}
+state {{user.state}}
+zip code {{user.zip_code}}
+As requested , please click below link to product permition activation.
+http://{{domain}}{% url "product_approve_option" uidb64=uid token=token %}
+
+if you think its not you , please ignore this email,
+
+
+{% endautoescape %}

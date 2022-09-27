@@ -1,0 +1,97 @@
+{% extends 'vendor/include/base.html' %}{% load static %}
+
+{% block content %}
+    <div class="container tm-mt-big tm-mb-big">
+      <div class="row">
+        <div class="col-xl-9 col-lg-10 col-md-12 col-sm-12 mx-auto">
+          <div class="tm-bg-primary-dark tm-block tm-block-h-auto">
+            <div class="row">
+              <div class="col-12">
+                <h2 class="tm-block-title d-inline-block">Add Product</h2>
+              </div>
+            </div>
+            <div class="row tm-edit-product-row">
+              <div class="col-xl-6 col-lg-6 col-md-12">
+                <form action="{% url 'add_product' %}" method="post" class="tm-edit-product-form" enctype="multipart/form-data">
+                  {% csrf_token %}
+                  <div class="form-group mb-3">
+                    <label
+                      for="name"
+                      >Product Name
+                    </label>
+                    {{forms.product_name}}
+                  </div>
+                  <div class="form-group mb-3">
+                    <label
+                      for="description"
+                      >Description</label
+                    >
+                    {{forms.discription}}
+                  </div>
+                  <div class="form-group mb-3">
+                    <label
+                      for="category"
+                      >Product Size</label
+                    >
+                    {{forms.size_chart}}
+                  </div>
+                  <div class="form-group mb-3">
+                    <label
+                      for="category"
+                      >category</label
+                    >
+                    {{forms.category}}
+                  </div>
+                  <div class="row">
+                      <div class="form-group mb-3 col-xs-12 col-sm-6">
+                          <label
+                            for="expire_date"
+                            >Price
+                          </label>
+                          {{forms.price}}
+                        </div>
+                        <div class="form-group mb-3 col-xs-12 col-sm-6">
+                          <label
+                            for="stock"
+                            >Units In Stock
+                          </label>
+                          {{forms.stock}}
+                        </div>
+                  </div>
+                  
+              </div>
+              <div class="col-xl-6 col-lg-6 col-md-12 mx-auto mb-4">
+                <div class="tm-product-img-dummy mx-auto">
+                  <i
+                    class="fas fa-cloud-upload-alt tm-upload-icon"
+                    onclick="document.getElementById('fileInput').click();"
+                  ></i>
+                </div>
+                <div class="custom-file mt-3 mb-3">
+                  <input id="fileInput" type="file" style="display:none;" />
+                  {{forms.image}}
+                </div>
+                <div class="custom-file mt-3 mb-3">
+                  <input id="fileInput" type="file" style="display:none;" />
+                  {{forms.is_available}} <label> product is available</label>
+                </div>
+                <div class="custom-file mt-3 mb-3">
+                  <input id="fileInput" type="file" style="display:none;" />
+                  {{forms.product_gen}} <label>product Gender</label>
+                </div>
+                
+              </div>
+              {% for message in messages %}
+                <h3>{{message}}</h3>
+                {% endfor %}
+                {{form.non_field_errors}}
+              <div class="col-12">
+                <button type="submit" class="btn btn-primary btn-block text-uppercase">Add Product Now</button>
+              </div>
+            </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+   {% endblock content %}

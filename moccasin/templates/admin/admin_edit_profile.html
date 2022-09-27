@@ -1,0 +1,5 @@
+<form action="{% url 'admin_edit_profile' user_details.id %}" method="post">
+     {% csrf_token %}
+    {{user_update}}
+    <button type="submit">submit</button>
+</form>

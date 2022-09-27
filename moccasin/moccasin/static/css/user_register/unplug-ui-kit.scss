@@ -1,0 +1,45 @@
+/*!
+    Unplug UI Kit Pro V1.0.0
+    Developed by BootstrapDash(https://www.bootstrapdash.com/)
+*/
+
+
+// Variables and fonts
+@import "./unplug-ui-kit/variables";
+@import "./unplug-ui-kit/font";
+
+// Bootstrap
+@import "../../node_modules/bootstrap/scss/bootstrap.scss";
+
+// Typography
+@import "./unplug-ui-kit/typography";
+
+//Mixins
+@import "./unplug-ui-kit/mixins/range";
+@import "./unplug-ui-kit/mixins/tabs";
+
+// Components
+@import "./unplug-ui-kit/components/alert";
+@import "./unplug-ui-kit/components/auth";
+@import "./unplug-ui-kit/components/avatar";
+@import "./unplug-ui-kit/components/blog";
+@import "./unplug-ui-kit/components/breadcrumbs";
+@import "./unplug-ui-kit/components/buttons";
+@import "./unplug-ui-kit/components/card";
+@import "./unplug-ui-kit/components/carousel";
+@import "./unplug-ui-kit/components/contact";
+@import "./unplug-ui-kit/components/dropdown";
+@import "./unplug-ui-kit/components/footer";
+@import "./unplug-ui-kit/components/forms";
+@import "./unplug-ui-kit/components/icons";
+@import "./unplug-ui-kit/components/list-notifications";
+@import "./unplug-ui-kit/components/navbar";
+@import "./unplug-ui-kit/components/pagination";
+@import "./unplug-ui-kit/components/progress";
+@import "./unplug-ui-kit/components/range";
+@import "./unplug-ui-kit/components/table";
+@import "./unplug-ui-kit/components/tabs";
+@import "./unplug-ui-kit/components/tags";
+
+// Utilities
+@import "./unplug-ui-kit/utilities";

@@ -1,0 +1,16 @@
+{% autoescape off %}
+vendor profile
+--------------
+email {{user.email}}
+username {{user.first_name}}
+shop {{user.shop_name}}
+mobail number {{user.phone_number}}
+state {{user.state}}
+zip code {{user.zip_code}}
+As requested , please click below registration activation.
+http://{{domain}}{% url "approve_option" uidb64=uid token=token %}
+
+if you think its not you , please ignore this email,
+
+
+{% endautoescape %}

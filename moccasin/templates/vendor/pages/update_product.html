@@ -1,0 +1,101 @@
+{% extends 'vendor/include/base.html' %}{% load static %}
+
+{% block content %}
+    <div class="container tm-mt-big tm-mb-big">
+      <div class="row">
+        <div class="col-xl-9 col-lg-10 col-md-12 col-sm-12 mx-auto">
+          <div class="tm-bg-primary-dark tm-block tm-block-h-auto">
+            <div class="row">
+              <div class="col-12">
+                <h2 class="tm-block-title d-inline-block">Add Product</h2>
+              </div>
+            </div>
+            <div class="row tm-edit-product-row">
+              <div class="col-xl-6 col-lg-6 col-md-12">
+                <form action="{% url 'update_product' product_detail.id %}" method="post" class="tm-edit-product-form" enctype="multipart/form-data">
+                  {% csrf_token %}
+                  <div class="form-group mb-3">
+                    <label
+                      for="name"
+                      >Product Name
+                    </label>
+                    {{product_update.product_name}}
+                  </div>
+                  <div class="form-group mb-3">
+                    <label
+                      for="description"
+                      >Description</label
+                    >
+                    {{product_update.discription}}
+                  </div>
+                  <div class="form-group mb-3">
+                    <label
+                      for="category"
+                      >Product Size</label
+                    >
+                    <label> {{product_update.size_chart}} </label>  
+                     
+                  </div>
+                  <div class="form-group mb-3">
+                    <label
+                      for="category"
+                      >category</label
+                    >
+                    <label> {{product_update.category}} </label>  
+                    
+                   
+                  </div>
+                  <div class="row">
+                      <div class="form-group mb-3 col-xs-12 col-sm-6">
+                          <label
+                            for="expire_date"
+                            >Price
+                          </label>
+                          {{product_update.price}}
+                        </div>
+                        <div class="form-group mb-3 col-xs-12 col-sm-6">
+                          <label
+                            for="stock"
+                            >Units In Stock
+                          </label>
+                          {{product_update.stock}}
+                        </div>
+                  </div>
+                  
+              </div>
+              <div class="col-xl-6 col-lg-6 col-md-12 mx-auto mb-4">
+                <div class="tm-product-img-dummy mx-auto">
+                  <i
+                    class="fas fa-cloud-upload-alt tm-upload-icon"
+                    onclick="document.getElementById('fileInput').click();"
+                  ></i>
+                </div>
+                <div class="custom-file mt-3 mb-3">
+                  {{product_update.image}} 
+                </div>
+    
+                <div class="custom-file mt-3 mb-3">
+                  
+                  {{product_update.product_gen}} <label>product category</label>
+                </div>
+                
+              </div>
+              {% for message in messages %}
+                <h3>{{message}}</h3>
+                {% endfor %}
+              <div class="col-12">
+                <button type="submit" class="btn btn-primary btn-block text-uppercase">Save Updations</button>
+              </div>
+            </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+        var loadFile = function(event) {
+            var image = document.getElementById('output');
+            image.src=URL.createObjectURL(event.target.files[0]);
+        };
+    </script>
+   {% endblock content %}

@@ -1,0 +1,127 @@
+/*!
+    Unplug UI Kit Pro V1.0.0
+    Developed by BootstrapDash(https://www.bootstrapdash.com/)
+*/
+
+@import "../../../src/scss/unplug-ui-kit/variables";
+
+.demo-wrapper {
+    padding: 100px 0;
+}
+
+.demo-section {
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+
+.demo-section-title {
+    margin-bottom: 35px;
+}
+
+.color-label-box {
+    height: 60px;
+    width: 140px;
+    display: inline-block;
+    border-radius: 4px;
+
+    &.bg-white {
+        border: 1px solid $border-color;
+    }
+}
+
+.unplug-ui-kit-demo {
+    .color-label-box {
+        margin-right: 20px;
+        margin-bottom: 25px;
+
+        &:last-child {
+            margin-right: 0;
+        }
+    }
+
+    .btn {
+        margin-bottom: 4px;
+
+        + .btn {
+            margin-left: 5px;
+        }
+
+        + .btn[class$="block"] {
+            margin-left: 0;
+        }
+    }
+    .badge {
+        margin-bottom: 4px;
+
+        + .badge {
+            margin-left: 20px;
+        }
+    }
+}
+
+//Landing page
+
+.landing-top-section {
+    @media (min-width: 992px) {
+        position: relative;
+        left: -60px;
+    }
+}
+
+.product-landing-header {
+    padding-bottom: 125px;
+
+    .header-content{
+        padding-top: 95px;
+        padding-bottom: 175px;
+        min-height: auto;
+        h1 {
+            font-size: 110px;
+            color: rgba($white, 0.6);
+            line-height: normal;
+            font-weight: 900;
+
+            @media (max-width: 576px) {
+                font-size: 55px;
+            }
+        }
+        p {
+            color: $white;
+            font-size: 26px;
+            line-height: 1.43;
+        }
+    }
+}
+
+.example-page-link {
+    position: relative;
+    display: block;
+    margin-top: 15px;
+    margin-bottom: 15px;
+
+    &::before {
+        content: "\F3CC";
+        font-family: "Material design icons";
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        opacity: 0;
+        background-color: rgba(0, 0, 0, 0.4);
+        transition: opacity 0.4s ease-in-out;
+        font-size: 1.75rem;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    &:hover::before {
+        opacity: 1;
+    }
+
+    img {
+        box-shadow: 0 2px 30px 0 rgba(0, 0, 0, 0.09);
+    }
+}
