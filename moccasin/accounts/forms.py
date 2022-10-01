@@ -1,7 +1,6 @@
-from tkinter import Widget
+
 from django.core import validators
 from queue import Empty
-from tokenize import endpats
 from .models import User
 from django import forms
 from django.forms import Form, ModelForm, PasswordInput, ValidationError

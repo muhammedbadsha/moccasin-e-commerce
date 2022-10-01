@@ -221,9 +221,12 @@ def about(request):
     return render(request,'user/about.html')
 
 def order_status(request):
-    user = request.user
-    order_product = order.objects.filter(user=user).all()
-    
+   
+    try:
+        user = request.user
+        order_product = order.objects.filter(user=user).all()
+    except:
+        return redirect('home')
 
     context = {
         "order_product":order_product,
