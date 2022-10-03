@@ -188,12 +188,13 @@ AWS_LOCATION = 'static'
 AWS_QUERYSTRING_AUTH = False
 
 STATICFILES_DIRS = [
-    'moccasin/static'
+    
+    'static'
     ]  
 
 STATIC_URL = 'http://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
 
-DEFAULT_FILE_STORAGE = 'moccasin.media_storages .MediaStorage'
+DEFAULT_FILE_STORAGE = 'moccasin.media_storages.MediaStorage'
 
 
 TWILIO_NUMBER = config('TWILIO_NUMBER')
