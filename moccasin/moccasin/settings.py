@@ -191,6 +191,8 @@ STATICFILES_DIRS = [
     'moccasin/static'
     ]  
 
+STATIC_URL = 'http://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
+
 
 TWILIO_NUMBER = config('TWILIO_NUMBER')
 ACCOUNT_SID = config('ACCOUNT_SID')
