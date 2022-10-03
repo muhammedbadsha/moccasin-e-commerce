@@ -146,13 +146,10 @@ USE_TZ = config('USE_TZ', default=True, cast=bool)
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-STATIC_URL = 'static/'
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR,'static')
-    ]  
 
-PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
-STATIC_ROOT = os.path.join(PROJECT_DIR, 'static')
+# STATIC_URL = 'static/'
+# PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
+# STATIC_ROOT = os.path.join(PROJECT_DIR, 'static')
 MESSAGE_TAGS = {
     messages.ERROR: 'danger',
     50: 'critical',
@@ -168,18 +165,18 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-
 AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
 
 AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
 
 AWS_STORAGE_BUCKET_NAME = config('AWS_STORAGE_BUCKET_NAME')
 
+STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
 AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
 
 AWS_S3_OBJECT_PARAMETERS = {
-     'CasheControl': 'max-age-86400',
+     'CacheControl': 'max-age-86400',
 }
 
 AWS_S3_FILE_OVERWRITE =  False
@@ -190,6 +187,9 @@ AWS_LOCATION = 'static'
 
 AWS_QUERYSTRING_AUTH = False
 
+STATICFILES_DIRS = [
+    'moccasin/static'
+    ]  
 
 
 TWILIO_NUMBER = config('TWILIO_NUMBER')
