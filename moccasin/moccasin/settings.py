@@ -29,6 +29,7 @@ SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=True, cast=bool)
+# DEBUG = False
 
 ALLOWED_HOSTS = ["*"]
 
@@ -53,6 +54,7 @@ INSTALLED_APPS = [
     'order',
     "django_htmx",
     "storages",
+    'boto3',
 
    
 ]
@@ -107,7 +109,7 @@ DATABASES = {
         'USER': config('DATABASEUSER'),
         'PASSWORD': config('DATABASEPASSWORD'),
         'HOST': 'localhost',
-        'PORT': '5432'
+        'PORT': '5432',
     }   
 }
 
@@ -156,45 +158,33 @@ MESSAGE_TAGS = {
 }
 
 # STATIC_ROOT = STATIC_ROOT = BASE_DIR / "staticfiles"
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
 AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
-
 AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
-
 AWS_STORAGE_BUCKET_NAME = config('AWS_STORAGE_BUCKET_NAME')
-
-STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-
 AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
-
 AWS_S3_OBJECT_PARAMETERS = {
-     'CacheControl': 'max-age-86400',
+    'CacheControl':'max-age=86400',
 }
-
-AWS_S3_FILE_OVERWRITE =  False
-
+AWS_S3_FILE_OVERWRITE = True
 AWS_DEFAULT_ACL = 'public-read'
-
 AWS_LOCATION = 'static'
-
-AWS_QUERYSTRING_AUTH = False
-
-STATICFILES_DIRS = [
-    
-    'static'
-    ]  
-
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+STATICFILES_DIRS=[
+    'static',
+]
 STATIC_URL = 'http://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
-
+STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 DEFAULT_FILE_STORAGE = 'moccasin.media_storages.MediaStorage'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 TWILIO_NUMBER = config('TWILIO_NUMBER')
