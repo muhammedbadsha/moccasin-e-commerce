@@ -1,3 +1,5 @@
+from itertools import count
+from tkinter import N
 from cart.models import Cart,CartItem
 from django.shortcuts import get_object_or_404, render
 from django.http import JsonResponse
@@ -24,12 +26,21 @@ def product(request,category_slug = None):
             )
     try:
         cart = CartItem.objects.filter(customer = request.user).all()
+        count=cart.count
+        total = cart.pro_qty_price.sum()
     except:
         cart=None
+    # if cart is None:
+    #     pass
+    # else:
+    #     # total = 0
+    #     # for i in cart:
+    #     #     total += i.pro_qty_price
+    #     #     print(total)
+
     context = {
-        'cartItem':cart,
-        'product':product,
-        
+        'count':count,
+        'total':total,
     }
     return render(request,'user/product.html',context)
  
