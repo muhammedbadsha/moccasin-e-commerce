@@ -1,4 +1,5 @@
 from itertools import count
+from multiprocessing import context
 from tkinter import N
 from cart.models import Cart,CartItem
 from django.shortcuts import get_object_or_404, render
@@ -26,8 +27,7 @@ def product(request,category_slug = None):
             )
     try:
         cart = CartItem.objects.filter(customer = request.user).all()
-        count=cart.count
-        total = cart.pro_qty_price.sum()
+        
     except:
         cart=None
     # if cart is None:
@@ -37,11 +37,12 @@ def product(request,category_slug = None):
     #     # for i in cart:
     #     #     total += i.pro_qty_price
     #     #     print(total)
-
-    context = {
-        'count':count,
-        'total':total,
+    context={
+        'product':product,
+        
+        
     }
+    
     return render(request,'user/product.html',context)
  
 
