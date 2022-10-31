@@ -1,6 +1,5 @@
 from itertools import count
 from multiprocessing import context
-from tkinter import N
 from cart.models import Cart,CartItem
 from django.shortcuts import get_object_or_404, render
 from django.http import JsonResponse
