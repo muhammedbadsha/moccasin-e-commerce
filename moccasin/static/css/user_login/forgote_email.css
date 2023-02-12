@@ -1,0 +1,121 @@
+.main{
+    background-color: rgb(240, 240, 240);
+    width: 100%;
+    height: 41rem;
+  }
+  
+  .top-nav{
+    height: 25%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    
+  
+  }
+  
+  
+  
+  .bottom-div{
+  margin: 0 0 0 0;
+  }
+  
+  input.form-control {
+  margin: 0 0 18px 0;
+  }
+  
+  .head-name{
+    margin-top: 5%;
+  }
+  /* x */
+  
+  .login-div{
+    align-content: center;
+    background-color: white;
+    height:10em;
+    width: 23rem;
+    margin-bottom: 4rem;
+    box-shadow: 4px 3px 8px 1px #969696;
+    -webkit-box-shadow: 4px 3px 8px 1px #969696;
+  }
+  
+  .wrapper h5{
+    margin:1rem 2rem 0rem 2rem;
+    align-content: center;
+  }
+  .fields{
+    align-content: center;
+  }
+  .fields input{
+    /* align-content: center; */
+    width: 16rem;
+    margin: 2px 2px 2px 2px;
+  }
+  
+  
+  .container{
+    background-color: rgb(240, 240, 240);
+    display: contents;
+    justify-content: center;
+    width: 100rem;
+    height:75%;
+    
+  }
+  
+  /* this another */
+  
+  
+  @import "bourbon";
+  
+  body {
+  background: #eee !important;	
+  }
+  
+  .wrapper {	
+  /* margin-top: 80px; */
+  margin-bottom: 0px;
+  }
+  
+  .form-signin {
+  max-width: 380px;
+  padding: 20px 14px 0px;
+  margin: 0 auto;
+  background-color: #fff;
+  /* border: 1px solid rgba(0,0,0,0.1);   */
+  
+  .form-signin-heading,
+  .checkbox {
+    margin-bottom: 30px;
+  }
+  
+  .checkbox {
+    font-weight: normal;
+  }
+  
+  .form-control {
+    position: relative;
+    font-size: 16px;
+    height: auto;
+    padding: 10px;
+    @include box-sizing(border-box);
+  
+    &:focus {
+      z-index: 2;
+    }
+  }
+  
+  input[type="text"] {
+    margin-bottom: -1px;
+  
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+  
+  input[type="password"] {
+    margin-bottom: 20px;
+    
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+  
+  }
+  

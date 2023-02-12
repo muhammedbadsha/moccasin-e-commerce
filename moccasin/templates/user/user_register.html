@@ -1,89 +1,65 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Register</title>
-    <link rel="stylesheet" href="{% static 'css/user_register/unplug-ui-kit.css' %}">
-    <link rel="stylesheet" href="{% static 'css/user_register/unplug-ui-kit-demo.css' %}">
-    <link rel="stylesheet" href="{% static 'css/user_register/materialdesignicons.min.css' %}">
-</head>
-<body class="auth-card-page">
-    <main class="auth auth-card-container">
-        <div class="auth-card">
-            <div class="row">
-                <div class="col-md-6 d-flex align-items-center justify-content-center auth-bg-section">
-                    {% comment %} <img src="{% static 'images/user_register/register.svg' %}" class="img-fluid" alt="login"> {% endcomment %}
-                </div>
-                <div class="col-md-6 d-flex py-5 flex-column justify-content-center bg-white">
-                    <div class="auth-form-section">
-                        <div class="logo">
-                        {% comment %} <img src="{% static 'images/icons/logo-01.png' %}" class="img-fluid" alt="Unplug UI" width="200">{% endcomment %}
-                        <h1><b>MOCCA</b>SIN</h1>
-                        <h2>Sign up</h2>
-                        </div> 
-                        <form action="{% url 'user_register' %}" method="post" class="auth-form"   novalidate>
-                            {% csrf_token %}
-                            <div class="form-group">
-                                <label for="username">First Name</label><br>
-                                {{form.first_name}}
-                                {{form.first_name.errors}}
-                                <!-- <input type="text" name="username" id="username" class="form-control" placeholder="Name"> -->
-                            </div>
-                            <div class="form-group">
-                                
-                                <label for="last_name">Last Name</label><br>
-                                {{form.last_name}}
-                                <!-- <input type="text" name="username" id="username" class="form-control" placeholder="Name"> -->
-                            </div>
-                            
-                          
-                            <div class="form-group">
-                                <label for="phone_number">Phone Number</label><br>
-                                {{form.phone_number}}
-                                {{form.phone_number.errors}}
-                                <!-- <input type="email" name="userEmail" id="userEmail" class="form-control" placeholder="Email"> -->
-                            </div>
-                            <div class="form-group">
-                                <label for="userEmail">Email Address</label><br>
-                                {{form.email}}
-                                {{form.email.errors}}
-                                <!-- <input type="email" name="userEmail" id="userEmail" class="form-control" placeholder="Email"> -->
-                            </div>
-                            <div class="form-group">
-                                <label for="userPassword">Password</label><br>
-                                {{form.password}}
-                                {{form.password.errors}}
-                            </div>
-                            <div class="form-group">
-                                <label for="userPassword">confirm Password</label><br>
-                                {{form.confirm_password}}
-                                <!-- <input type="password" name="conform Password" id="userPassword" class="form-control"
-                                    placeholder="********"> -->
-                            </div>
-                           
-                            
-                            
-                                
-                                {{form.non_field_errors}}
-                            <button type="submit" class="btn btn-danger btn-block mb-3">Sign up</button>
-                            <div class="form-check text-left">
-                                <input type="checkbox" class="form-check-input" name="termsAgriment" id="termsAgriment"
-                                    value="termsAgreed">
-                                <label class="form-check-label" for="termsAgriment">
-                                    I agree to terms and conditions of this website
-                                </label>
-                            </div>
-                        </form>
-                        <p class="text-left mb-0">Already have an account? <a href="{% url 'user_login' %}">Sign in here</a> </p>
-                    </div>
-                </div>
-            </div>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Bootstrap demo</title>
+    <link rel="stylesheet" href="{% static 'css/user_register/user_registration.css' %}" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
+      crossorigin="anonymous"
+    />
+  </head> 
+  <body>
+    <div class="main">
+      <header class="top-nav">
+        <h1 class="head-name d-flex"><b class="">MOCCA</b>SIN</h1>
+      </header>
+      <div class="container d-flex">
+        <div class="login-div d-flex-column">
+          <!-- <div class="login_Head d-flex justify-content-center">
+            
+          </div> -->
+          <div class="wrapper"><h5 class="">register in to <B>MOCCA</B>SIN</h5>
+            <form action="{% url 'user_register' %}" method="post" class="form-signin auth-form"  novalidate>   
+              {% csrf_token %}    
+              <label for="username">First Name</label><br>
+              {{form.first_name}}
+              {{form.first_name.errors}}
+              <label for="last_name">Last Name</label><br>
+              {{form.last_name}}
+              <label for="phone_number">Phone Number</label><br>
+              {{form.phone_number}}
+              {{form.phone_number.errors}}
+              <label for="userEmail">Email Address</label><br>
+               {{form.email}}
+               {{form.email.errors}}
+               <label for="userPassword">Password</label><br>
+                {{form.password}}
+                {{form.password.errors}}
+                <label for="userPassword">confirm Password</label><br>
+                {{form.confirm_password}}
+                {{form.non_field_errors}}
+              <input class="form-control btn btn-sm btn-primary" style="margin-top:1rem" type="submit"value="Login">   
+            
+          
+                  <div class="bottom-div d-flex justify-content-end">
+                     <p>  <a class="l-2" style="margin-right: 1rem;"href="{% url 'user_login' %}">sign up for moccasin </a></p>
+                  </div>
+                </form>
+                  </div>
+
+          </div>
         </div>
-    </main>
-    
-    
-</body>
+      </div>
+   
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+      crossorigin="anonymous"
+    ></script>
+  </body>
 </html>

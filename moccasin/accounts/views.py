@@ -17,6 +17,7 @@ from django.utils.http import urlsafe_base64_decode
 from django.utils.encoding import force_bytes
 from django.contrib.auth.tokens import default_token_generator
 from accounts.mixins import MssageHandler
+from .otp import verify,verify_check 
 
 # Create your views here.
 def user_register(request):
@@ -31,7 +32,10 @@ def user_register(request):
             print(email)
             password = form.cleaned_data['password']
             username = email.split("@")[0]
-            phone_number = form.cleaned_data['phone_number']
+            # phone_number = form.cleaned_data['phone_number']
+            phone_number2 = form.cleaned_data['phone_number']
+            request.session['phone_number2'] = phone_number2                
+            verify(phone_number2)   
             
             user = User.objects.create_user(
                 first_name=first_name, 
@@ -39,12 +43,12 @@ def user_register(request):
                 email=email,
                 username=username,
                 password=password,
-                phone_number = phone_number,
+                phone_number = phone_number2,
             )
-            user.otp = str(randint(1000,9999))
-            user.save()
-            print(user.otp,user.phone_number)
-            message_handler = MssageHandler(user.phone_number,user.otp).send_otp_to_phone()
+            # user.otp = str(randint(1000,9999))
+            # user.save()
+            # print(user.otp,user.phone_number)
+            # message_handler = MssageHandler(user.phone_number,user.otp).send_otp_to_phone()
             return redirect('otp')
             
 
@@ -59,32 +63,59 @@ def user_register(request):
 
 def otp(request):
 
-    if request.method == 'POST':
-        
-        phone_number = request.POST['phone_number']
-        try:
-            user = User.objects.get(phone_number = phone_number)
-            oldotp=user.otp
-            otp = request.POST['otp']
-            if otp == oldotp:
-                user.is_active = True
+
+    try:
+       
+        phone_number=request.session['phone_number2']
+        user=User.objects.get(phone_number=phone_number)
+        if request.method== 'POST':
+            otp=request.POST['otp']
+            if verify_check(phone_number,otp)==True:
+                user.is_active=True
                 user.is_user = True
                 user.save()
                 return redirect('user_login')
             else:
-                messages.error(request,"OTP is incorrect!!")
-                return redirect('otp')
-        except:
+                messages.error(request,'otp entered is incorrect!')
+    except:
+        messages.error(request,'try again!')
+        return redirect('user_register')
+    
+    
+    
+    return render(request, 'user/user_otp.html')
+
+    # if request.method == 'POST':
+        
+    #     phone_number = request.POST['phone_number']
+    #     try:
+    #         user = User.objects.get(phone_number = phone_number)
+    #         oldotp=user.otp
+    #         otp = request.POST['otp']
+    #         if otp == oldotp:
+    #             user.is_active = True
+    #             user.is_user = True
+    #             user.save()
+    #             return redirect('user_login')
+    #         else:
+    #             messages.error(request,"OTP is incorrect!!")
+    #             return redirect('otp')
+    #     except:
            
-        # print(user)
-            messages.error(request,"phone number doesnot exist!!")
-            return redirect('otp')
+    #     # print(user)
+    #         messages.error(request,"phone number doesnot exist!!")
+    #         return redirect('otp')
            
-            print(oldotp)
-    # messages.error(request,"phone number does't exists!!")
+    #         print(oldotp)
+    # # messages.error(request,"phone number does't exists!!")
 
     return render(request,'user/user_otp.html')
 
+def otp_resend(request):
+    phone_number=request.session['phone_number2']
+    user=User.objects.get(phone_number=phone_number)
+    verify(phone_number)
+    return redirect('otp')
 
 def user_login(request):
     if request.user.is_authenticated:
@@ -107,6 +138,7 @@ def user_login(request):
             return redirect('vendor_home')
         if user is not None and user.is_active and user.is_user:
             auth.login(request, user)
+            # print("this is user")
             # Redirect to a success page.
             return redirect('home')
 

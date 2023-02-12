@@ -52,9 +52,9 @@ INSTALLED_APPS = [
     'cart',
     'checkout',
     'order',
-    "django_htmx",
-    "storages",
-    'boto3',
+    # "django_htmx",
+    # "storages",
+    # 'boto3',
 
    
 ]
@@ -105,9 +105,9 @@ AUTH_USER_MODEL = 'accounts.User'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': config('DATABASENAME'),  
-        'USER': config('DATABASEUSER'),
-        'PASSWORD': config('DATABASEPASSWORD'),
+        'NAME': 'moccasin_clone',  
+        'USER': 'postgres',
+        'PASSWORD': 'badsha',
         'HOST': 'localhost',
         'PORT': '5432',
     }   
@@ -163,40 +163,43 @@ MESSAGE_TAGS = {
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
-AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
-AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
-AWS_STORAGE_BUCKET_NAME = config('AWS_STORAGE_BUCKET_NAME')
-AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
-AWS_S3_OBJECT_PARAMETERS = {
-    'CacheControl':'max-age=86400',
-}
-AWS_S3_FILE_OVERWRITE = True
-AWS_DEFAULT_ACL = 'public-read'
-AWS_LOCATION = 'static'
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+# AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
+# AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
+# AWS_STORAGE_BUCKET_NAME = config('AWS_STORAGE_BUCKET_NAME')
+# AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+# AWS_S3_OBJECT_PARAMETERS = {
+#     'CacheControl':'max-age=86400',
+# }
+# AWS_S3_FILE_OVERWRITE = True
+# AWS_DEFAULT_ACL = 'public-read'
+# AWS_LOCATION = 'static'
+# DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 STATICFILES_DIRS=[
-    'static',
+    os.path.join(BASE_DIR,'static')
 ]
-STATIC_URL = 'http://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
-STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-DEFAULT_FILE_STORAGE = 'moccasin.media_storages.MediaStorage'
+STATIC_URL = 'static/'
+# STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+# DEFAULT_FILE_STORAGE = 'moccasin.media_storages.MediaStorage'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+#twilio OTP
+ACCOUNT_SID='AC256b88140ad933cd59b6e57ebc9183f5'
+AUTH_TOKEN='f1894632a95edcfa7ee15fd846f065ac'
+SERVICE_SID='VA676f5cab6bc2d0a1a657b674ce499185'
+TWILIO_NUMBER = +15715203190
+
+#email SMTP verification
 
 
-TWILIO_NUMBER = config('TWILIO_NUMBER')
-ACCOUNT_SID = config('ACCOUNT_SID')
-AUTH_TOKEN = config('AUTH_TOKEN')
-SERVICE_SID = config('SERVICE_SID')
-ADMIN_EMAIL = config('ADMIN_EMAIL')
-EMAIL_HOST = config('EMAIL_HOST',default='localhost')
-EMAIL_USE_TLS =config('EMAIL_USE_TLS',default=False, cast=bool)
-EMAIL_PORT = config('EMAIL_PORT',default=25,cast=int)
-EMAIL_HOST_USER = config('EMAIL_HOST_USER',default='')
-EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD',default='')
+ADMIN_EMAIL='badshanasar123@gmail.com'
+EMAIL_HOST='smtp.gmail.com'
+EMAIL_USE_TLS=True
+EMAIL_PORT=587
+EMAIL_HOST_USER='moccasincom123@gmail.com'
+EMAIL_HOST_PASSWORD='rprlgwrcmyaplnrq'
 
 # RAZORPAY
 
