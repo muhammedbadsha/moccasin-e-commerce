@@ -5,9 +5,10 @@ from .models import Product
 
 class ProductForm(ModelForm):
     image=forms.ImageField()
+    
+    print("uuuuuuuuuuuu")
     class Meta:
         model = Product
         fields = ['product_name','category','discription','size_chart','product_gen','price','image','stock']
-
 
         

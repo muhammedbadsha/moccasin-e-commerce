@@ -10,17 +10,20 @@
   <title>
     Argon Dashboard 2 by Creative Tim
   </title>
+  
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
   <!--     Fonts and icons     -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
   <!-- Nucleo Icons -->
   <link href="{% static 'assets/css/nucleo-icons.css' %}" rel="stylesheet" />
   <link href="{% static 'assets/css/nucleo-svg.css' %}" rel="stylesheet" />
+
   <!-- Font Awesome Icons -->
   <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
   <link href="{% static 'assets/css/nucleo-svg.css' %}" rel="stylesheet" />
   <!-- CSS Files -->
   <link id="pagestyle" href="{% static 'assets/css/argon-dashboard.css' %}" rel="stylesheet" />
+  <link rel="stylesheet" href="{% static 'assets/css/add_product.css'%}">
 </head>
 
 <body class="g-sidenav-show   bg-gray-100">
@@ -227,6 +230,13 @@
       </div>
     </div>
   </div>
+<!-- HTMX CDN  -->
+<script src="https://unpkg.com/htmx.org@1.8.5" integrity="sha384-7aHh9lqPYGYZ7sTHvzP1t3BAfLhYSTy9ArHdP3Xsr9/3TlGurYgcPBoFmXX2TX/w" crossorigin="anonymous"></script>
+{% comment %} <script src="{% static 'js/htmx/htmx.min.js' %}" defer></script> {% endcomment %}
+{% comment %} <script src="{% static 'js/htmx/debug.js' %}" defer></script> {% endcomment %}
+ <!--   toast message   -->
+<script src="{% static "vendor/add_product/toast.js" %}"></script>
+
   <!--   Core JS Files   -->
   <script src="{% static 'assets/js/core/popper.min.js' %}"></script>
   <script src="{% static 'assets/js/core/bootstrap.min.js' %}"></script>
@@ -324,12 +334,28 @@
       }
       Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
     }
+
   </script>
+  <script>
+    document.body.addEventListener('htmx:configRequest', (event) => {
+      event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';
+    })
+  </script>
+
+<!-- modal functionals-->
+
+<script src="{% static 'vendor/add_product/dialog.js' %}"></script>
+
   <!-- Github buttons -->
   <script async defer src="https://buttons.github.io/buttons.js"></script>
   <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
-  <script src="{% static 'assets/js/argon-dashboard.min.js?v=2.0.2' %}"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+ 
+  <script src="{% static 'assets/js/argon-dashboard.js' %}"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+  
+  
 </body>
 
 </html>

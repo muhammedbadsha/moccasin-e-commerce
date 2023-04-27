@@ -23,6 +23,7 @@ class VendorForm(ModelForm):
         self.fields['email'].widget.attrs['placeholder'] = 'Enter email'
         self.fields['state'].widget.attrs['placeholder'] = 'Enter state'
         self.fields['phone_number'].widget.attrs['placeholder'] = 'enter phone number '
+        
         self.fields['city'].widget.attrs['placeholder'] = 'Enter city '
         self.fields['zip_code'].widget.attrs['placeholder']=' enter zip_code'
 
@@ -66,9 +67,11 @@ class add_product_form(forms.ModelForm):
 
         self.fields['product_name'].widget.attrs['placeholder'] = 'product name'
         self.fields['category'].widget.attrs['placeholder'] = ' select..'
-        self.fields['stock'].widget.attrs['placeholder'] = ' enter stock'
+        self.fields['stock'].widget.attrs['placeholder'] = ' enter stock less than 20'
+        self.fields['price'].widget.attrs['placeholder'] = 'enter within 400 to 10000 rupee'
         self.fields['size_chart'].widget.attrs['placeholder'] = ' select..'
         self.fields['discription'].widget.attrs['placeholder'] = ' enter somthing..'
+        
         
 
 

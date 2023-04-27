@@ -78,10 +78,10 @@ def otp(request):
             else:
                 messages.error(request,'otp entered is incorrect!')
     except:
-        messages.error(request,'try again!')
-        return redirect('user_register')
+        messages.error(request,'entered otp is wrong !')
+        return redirect('otp')
     
-    
+   
     
     return render(request, 'user/user_otp.html')
 

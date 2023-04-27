@@ -1,7 +1,7 @@
 from datetime import date
 from multiprocessing import context
 from unicodedata import category
-from xml.dom import ValidationErr
+from django.core.exceptions import ValidationError
 from django.http import HttpResponse
 from django.shortcuts import render,redirect
 from category.models import Category
@@ -182,41 +182,45 @@ def add_product(request):
         
     else:
         return redirect("user_login")
-    try:
-        if request.method == 'POST':
-            form = add_product_form(request.POST,request.FILES)
-            if form.is_valid:
-                product_name = request.POST['product_name']
-                category = Category.objects.get(id=request.POST['category'])
-                
-                discription = request.POST['discription']
-                size_chart =Size_chart.objects.get(id=request.POST['size_chart'])
-                
-                price = request.POST['price']
-                stock = request.POST['stock']
-                image = request.FILES['image']
-                product_gen=request.POST['product_gen']
-                slug = slugify(product_name)
-                
-                product = Product.objects.create(
-                    product_name=product_name,
-                    category=category,
-                    discription=discription,
-                    slug = slug,
-                    price=price,
-                    image=image,
-                    stock=stock,
-                    product_gen=product_gen,
-                    size_chart=size_chart,
-                    )
-                product.is_available=True
-                product.permition=True
-                product.slug=slug
-                
-                product.save()
-                return redirect('tables')
+    # try:
+    if request.method == 'POST':
+        form = add_product_form(request.POST,request.FILES)
+        if form.is_valid: 
+            product_name = request.POST['product_name']
+            category = Category.objects.get(category_name=request.POST['category'])
             
-    except :
+            discription = request.POST['discription']
+            size_chart =Size_chart.objects.get(size=request.POST['size_chart'])
+            print("hiiii")
+            price = request.POST['price']
+            stock = request.POST['stock']
+            image = request.FILES['image']
+            product_gen=request.POST['product_gen']
+            slug = slugify(product_name)
+            if price >= 400 and price <= 10000:
+                return ValidationError("this field must be between 400 to 10000")
+            if stock >= 1 and stock <= 20:
+                return ValidationError("this field must be between 1 to 20")
+            
+            product = Product.objects.create(
+                product_name=product_name,
+                category=category,
+                discription=discription,
+                slug = slug,
+                price=price,
+                image=image,
+                stock=stock,
+                product_gen=product_gen,
+                size_chart=size_chart,
+                )
+            product.is_available=True
+            product.permition=True
+            product.slug=slug
+            
+            product.save()
+            return redirect('tables')
+            
+    # except :
         
         messages.error(request,'product name is already entered!!' 'try another one')
                 
@@ -237,9 +241,17 @@ def add_product(request):
     else:
 
         form = add_product_form(initial={'slug': 'no need'})
+    category = Category.objects.all()
+    size_chart = Size_chart.objects.all()
     
+    context = {
+        'forms':form,
+        'category':category,
+        'size_chart':size_chart,
 
-    return render(request,'vendor/pages/add_product.html', {'forms':form,})
+    }
+
+    return render(request,'vendor/pages/add_product.html', context)
 
 
 

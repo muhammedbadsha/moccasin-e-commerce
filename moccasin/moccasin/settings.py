@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    #apps and configurations
     'accounts.apps.AccountsConfig',
     'adminapp.apps.AdminappConfig',
     'vendor.apps.VendorConfig',
@@ -52,7 +53,10 @@ INSTALLED_APPS = [
     'cart',
     'checkout',
     'order',
-    # "django_htmx",
+    #fetures
+    "django_htmx",
+    # 'widget_tweaks',
+
     # "storages",
     # 'boto3',
 
@@ -72,6 +76,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    #htmx middleware
+    "django_htmx.middleware.HtmxMiddleware",
 ]
 
 ROOT_URLCONF = 'moccasin.urls'

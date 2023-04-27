@@ -8,6 +8,7 @@ from django.db import models
 from django.urls import reverse
 from accounts.models import User
 from category.models import Category
+from django.core.validators import MinValueValidator,MaxValueValidator
 import uuid
 
 product_gender=(
@@ -21,14 +22,16 @@ product_gender=(
 
 
 class Size_chart(models.Model):
-    size = models.CharField(max_length=3,null=True,blank=True)
-
+    size = models.PositiveIntegerField(validators=[MinValueValidator(4),MaxValueValidator(25),],unique=True,null=True)
     class Meta:
         verbose_name = 'size'
 
     def __str__(self):
         return self.size
 
+class Images(models.Model):
+    image_name = models.CharField(max_length=255, blank=True, null=True)
+    images = models.ImageField(upload_to ='images')
 
 
 class Product(models.Model):
@@ -36,15 +39,15 @@ class Product(models.Model):
     # user = models.ForeignKey(User,on_delete=models.CASCADE)
     # uid = models.UUIDField(primary_key = True, default = uuid.uuid4, editable = False)
     product_gen = models.CharField(max_length = 30,choices = product_gender,null=True,default='all')
-    product_name = models.CharField(max_length=100,unique = True,null=True)
+    product_name = models.CharField(max_length=100, null=True)
     slug = models.SlugField(max_length=200,unique=True)
     discription = models.TextField(max_length=500,blank=True)
-    price = models.IntegerField()
+    price = models.PositiveIntegerField(validators=[MinValueValidator(400),MaxValueValidator(10000),],null=True)
     size_chart = models.ForeignKey(Size_chart,on_delete=models.CASCADE,null=True,blank=True,default='select any one')
-    image = models.ImageField(upload_to ='images')
-    stock = models.CharField(max_length=50,null=True)
+    image = models.ForeignKey(Images,on_delete=models.CASCADE)
+    stock = models.PositiveIntegerField(validators=[MinValueValidator(1),MaxValueValidator(20),],null=True)
     is_available = models.BooleanField(default=True)
-    category = models.ForeignKey(Category,on_delete=models.CASCADE,default='select any one')
+    category = models.ForeignKey(Category,on_delete=models.CASCADE,default='select any one') 
     permition = models.BooleanField(default=True)
     create_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)

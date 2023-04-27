@@ -1,5 +1,5 @@
 {% extends 'vendor/include/base.html' %}{% load static %}
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+
 {% block content %}
     <div class="container tm-mt-big tm-mb-big">
       <div class="row">
@@ -18,10 +18,8 @@
                     <label
                       for="name"
                       >Product Name
-                    </label>  
-                    <div>
+                    </label>
                     {{forms.product_name}}
-                  </div>
                   </div>
                   <div class="form-group mb-3">
                     <label
@@ -35,39 +33,28 @@
                       for="category"
                       >Product Size</label
                     >
-                    <input type='text' class='form-control sm'style='width:19rem' name="size_chart" placeholder="select" list='listid1'>
+                    <input type='text'  name="size_chart" placeholder="select" list='listid1'>
                     <datalist id='listid1'>
                       {% for i in size_chart %}
                       <option  value='{{i.size}}'>
-                      {% endfor %}
+                      <option  value='value2'>  
+   ...                {% endfor %}
                     </datalist>
-                    <i class="fas fa-plus fa-2x block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04" data-bs-toggle="modal" hx-post="{% url 'product_size' %}" hx-target="#dialog"></i>
+                    {% include 'vendor/include/modal_product_addSize.html' %}
                   </div>
                   <div class="form-group mb-3">
                     <label
-                    for="category"
-                    >category</label
+                      for="category"
+                      >category</label
                     >
-                    <input type='text' class='form-control sm'  style='width:19rem' name="category" placeholder="select" list='listid'>
+                    <input type='text' name="category" placeholder="select" list='listid'>
                     <datalist id='listid'>
                       {% for i in category %}
                       <option  value='{{i.category_name}}'>
-                        
-                      {% endfor %}
-                      </datalist>
-
-                      <i class="fas fa-plus fa-2x block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04" hx-post="{% url 'add_category' %}" hx-target="#dialog" ></i>
-
-                      <div id="modal" class="modal fade">
-                        <div id="dialog" class="modal-dialog" hx-target="this"></div>
-                      </div>
-                      
-                      {% comment %} {% include 'vendor/include/modal_product_addCategory.html' %} {% endcomment %}
-
-
-                       <!-- Placeholder for the modal -->
-    
-                    
+                      <option  value='value2'>  
+   ...                {% endfor %}
+                    </datalist>
+                    {% include 'vendor/include/modal_product_addCategory.html' %}
                   <div class="row">
                       <div class="form-group mb-3 col-xs-12 col-sm-6">
                           <label
@@ -75,7 +62,6 @@
                             >Price
                           </label>
                           {{forms.price}}
-                          {{ forms.price.errors|first }}
                         </div>
                         <div class="form-group mb-3 col-xs-12 col-sm-6">
                           <label
@@ -83,7 +69,6 @@
                             >Units In Stock
                           </label>
                           {{forms.stock}}
-                          {{ forms.stock.errors|first }}
                         </div>
                   </div>
                   
@@ -122,21 +107,5 @@
         </div>
       </div>
     </div>
-
-    <!-- message toast -->
-
-  <!-- Empty toast to show the message -->
-  <div class="toast-container position-fixed top-0 end-0 p-3">
-    <div id="toast" class="toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
-      <div class="d-flex">
-        <div id="toast-body" class="toast-body"></div>
-        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-      </div>
-    </div>
-  </div>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
-<script src="{% static 'vendor/add_product/dialog.js' %}"></script>
-<script src="{% static 'vendor/add_product/toast.js' %}"></script>
-
     
    {% endblock content %}

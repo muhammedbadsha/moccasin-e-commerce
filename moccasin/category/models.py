@@ -7,7 +7,6 @@ from django.urls import reverse
 
 class Category(models.Model):
     category_name = models.CharField(max_length=50,unique=True)
-    slug = models.SlugField(max_length=100,unique=True)
     discription = models.CharField(max_length=255,blank=True)
     cart_image = models.ImageField(upload_to='photos/categories',blank=True)
 
