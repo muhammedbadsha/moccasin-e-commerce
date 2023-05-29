@@ -12,8 +12,8 @@
             </div>
             <div class="row tm-edit-product-row">
               <div class="col-xl-6 col-lg-6 col-md-12">
-                <form action="{% url 'add_product' %}" method="post" class="tm-edit-product-form" enctype="multipart/form-data">
-                  {% csrf_token %}
+                <form action="{% url 'add_product' %}" method="post" class="tm-edit-product-form" enctype="multipart/form-data" novalidate>
+                  {% csrf_token %}  
                   <div class="form-group mb-3">
                     <label
                       for="name"
@@ -35,26 +35,30 @@
                       for="category"
                       >Product Size</label
                     >
-                    <input type='text' class='form-control sm'style='width:19rem' name="size_chart" placeholder="select" list='listid1'>
+                    {{forms.size_chart}}
+                    {% comment %} <input type='text' class='form-control sm'style='width:19rem' name="size_chart" placeholder="select" list='listid1'>
                     <datalist id='listid1'>
                       {% for i in size_chart %}
                       <option  value='{{i.size}}'>
                       {% endfor %}
-                    </datalist>
-                    <i class="fas fa-plus fa-2x block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04" data-bs-toggle="modal" hx-post="{% url 'product_size' %}" hx-target="#dialog"></i>
+                    </datalist> {% endcomment %}
+                    {% comment %} <i class="fas fa-plus fa-2x block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04" data-bs-toggle="modal" hx-post="{% url 'product_size' %}" hx-target="#dialog"></i> {% endcomment %}
                   </div>
                   <div class="form-group mb-3">
                     <label
                     for="category"
                     >category</label
                     >
-                    <input type='text' class='form-control sm'  style='width:19rem' name="category" placeholder="select" list='listid'>
-                    <datalist id='listid'>
+                    {% comment %} <input type='text' class='form-control sm'  style='width:19rem' name="category" placeholder="select" list='listid'>
+                     {% endcomment %}
+                     {{forms.category}}
+                    {% comment %} <datalist id='listid'>
                       {% for i in category %}
-                      <option  value='{{i.category_name}}'>
+                      <option  value='{{i.category_name}}'> 
                         
                       {% endfor %}
-                      </datalist>
+                      </datalist> {% endcomment %}
+                      {{ form.category_name.non_field_errors }}.
 
                       <i class="fas fa-plus fa-2x block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04" hx-post="{% url 'add_category' %}" hx-target="#dialog" ></i>
 
@@ -96,15 +100,23 @@
                   ></i>
                 </div>
                 <div class="custom-file mt-3 mb-3">
-                  <input id="fileInput" type="file" style="display:none;" />
+                  <!-- <input id="fileInput" type="file" style="display:none;" /> -->
                   {{forms.image}}
+                  <p>{% if mess %}
+                    <ul class="messages">
+                        {% for message in mess %}
+                        <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}</p>
                 </div>
+                
                 <div class="custom-file mt-3 mb-3">
-                  <input id="fileInput" type="file" style="display:none;" />
+                  <!-- <input id="fileInput" type="file" style="display:none;" /> -->
                   {{forms.is_available}} <label> product is available</label>
                 </div>
                 <div class="custom-file mt-3 mb-3">
-                  <input id="fileInput" type="file" style="display:none;" />
+                  <!-- <input id="fileInput" type="file" style="display:none;" /> -->
                   {{forms.product_gen}} <label>product Gender</label>
                 </div>
                 

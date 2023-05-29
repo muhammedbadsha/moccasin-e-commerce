@@ -31,6 +31,7 @@
 	<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
 <!--===============================================================================================-->
 </head>
+<script src="https://unpkg.com/htmx.org@1.9.2" integrity="sha384-L6OqL9pRWyyFU3+/bjdSri+iIphTN/bvYyM37tICVyOJkWZLpP2vGn6VUEXgzg6h" crossorigin="anonymous"></script>
 <script type="text/javascript">
 		
 	var user = '{{request.user}}'
@@ -181,7 +182,7 @@
 				<li>
 					<div class="left-top-bar">
 						Free shipping for standard order over $100
-					</div>
+					</div> 
 				</li>
 
 				<li>
@@ -343,14 +344,15 @@
 									<th class="column-4">Quantity</th>
 									<th class="column-5">Total</th>
 								</tr>
+								
 								{% for cart in cartItem %}
-								<tr class="table_row">
+								<tr class="table_row" >
 									<td class="column-1">
 										<div
 										class="how-itemcart1 "  
 										hx-get="{% url 'remove_cart_item' cart.id %}"
 										hx-target="#cart-tabledown" 
-										hx-confirm = "Are you sure to delete?" 
+								 		hx-confirm = "Are you sure to delete?" 
 										hx-trigger="click" 
 										hx-swap="innerHTML"
 										hx-push-url="true"
@@ -362,27 +364,56 @@
 									</td>
 									<td class="column-2">{{cart.product}} </td>
 									<input id="proPrice-{{cart.id}}" hidden value="{{cart.product.price}}"/>
-									<td class="column-3" ><span >₹ {{cart.product.price}}</td>
+									<td class="column-3" ><span> {{cart.product.price}}</span></td>
 									<td class="column-4">
 										<div class="wrap-num-product flex-w m-l-auto m-r-0">
-											<div class="..btn-num-qty-down cl8 hov-btn3 trans-04 flex-c-m" id="subbtn-{{cart.id}}" onclick="changeProductQauntity(-1,'{{cart.id}}');find()" style="width: 45px;height: 100%;cursor: pointer;">
+											{% comment %} <div class="..btn-num-qty-down cl8 hov-btn3 trans-04 flex-c-m" id="subbtn-{{cart.id}}" onclick="changeProductQauntity(-1,'{{cart.id}}');find()" style="width: 45px;height: 100%;cursor: pointer;">
 												<i class="fs-16 zmdi zmdi-minus"></i>
+											</div> {% endcomment %}
+									
+											<div class="..btn-num-qty-down cl8 hov-btn3 trans-04 flex-c-m" onclick="changeProductQauntity(-1,'{{cart.id}}');find()" style="width: 45px;height: 100%;cursor: pointer;">
+												<i class="fs-16 zmdi zmdi-minus" id="minus-qty"></i>
 											</div>
 
-											<input class="mtext-104 cl3 txt-center num-product" id="productQuantity-{{cart.id}}" type="number" name="num-product1"  value="{{cart.quantity}}">
+											<input class="mtext-104 cl3 txt-center num-product" disabled="disabled" id="productQuantity-{{cart.id}}" type="number" name="num-product1"  value="{{cart.quantity}}">
 
-											<div class=".btn-num-qty-up cl8 hov-btn3  trans-04 flex-c-m plusbuttton" id="addbtn-{{cart.id}}" onclick="changeProductQauntity(1,'{{cart.id}}');find()" style="width: 45px;height: 100%;cursor: pointer;">
+											<div class=".btn-num-qty-up cl8 hov-btn3  trans-04 flex-c-m plusbuttton" onclick="changeProductQauntity(1,'{{cart.id}}');find()" style="width: 45px;height: 100%;cursor: pointer;">
 												<i class="fs-16 zmdi zmdi-plus"></i>
 											</div>
+										
+											{% comment %} <div class=".btn-num-qty-up cl8 hov-btn3  trans-04 flex-c-m plusbuttton" id="addbtn-{{cart.id}}" onclick="changeProductQauntity(1,'{{cart.id}}');find()" style="width: 45px;height: 100%;cursor: pointer;">
+												<i class="fs-16 zmdi zmdi-plus"></i>
+											</div> {% endcomment %}
 										</div>
 									</td>
-									<td class="column-5 totalPriceValue" id="totalMulQuantity-{{cart.id}}" onchange="totalOfCartPrice()">₹ {{cart.pro_qty_price}}</td>
 									
+									<td class="column-5"   >
+										<div >
+											{% comment %} <input class="mtext-104 cl3 txt-center num-product" disabled="disabled" id="totalMulQuantity-{{cartId}}" type="number" name="num-product1"  value="{{cart.pro_qty_price}}"> {% endcomment %}
+										<input class="column-5" readonly="readonly" id="totalMulQuantity-{{cart.id}}" value="{{cart.pro_qty_price}}">
+										</div>
+
+										{% comment %} <input class="column-5" disabled="disabled" visible= 'none' id="totalMulQuantity-{{cartId}}" value="{{cart.pro_qty_price}}"> {% endcomment %}
+									</td>
+									{% comment %} <td class="column-5 totalPriceValue" id="totalMulQuantity-{{cart.id}}" onchange="totalOfCartPrice()">₹ {{cart.pro_qty_price}}</td> {% endcomment %}
 								</tr>
 
 							{% endfor %}
+						
+							{% comment %} <script>
+								document.addEventListener('DOMContentLoaded', function () {
+									const minusTotalElement = document.getElementById('minus-total');
+								
+									// HTMX event handler for successful response
+									document.addEventListener('htmx:afterSwap', function (event) {
+										console.log(event)
+										const responseData = JSON.parse(event.xhr.responseText);
+										minusTotalElement.innerText =  responseData.total_price;
+									});
+								});
 							
-							<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js">
+							</script> {% endcomment %}
+							{% comment %} <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js">
 								$(document).ready(function(){
 								var pro_quantity_price;
 								var totalProduct = 0;
@@ -393,7 +424,7 @@
 									$('#totalProductPrice').text(totalProduct)
 								})
 								})
-							</script> -->
+							</script> --> {% endcomment %}
 
 							
 							
@@ -420,7 +451,7 @@
 								})(); {% endcomment %}
 
 								
-								(find = function(){
+								{% comment %} (find = function(){
 									
 									fetch('/cart/total_of_product_price_qut', {
 										method:'GET',
@@ -442,11 +473,9 @@
 											
 											document.getElementById("jail1").innerHTML = totalAmountPro
 											
-											
-
 										})
 
-									})();
+									})(); {% endcomment %}
 
 
 								
@@ -473,10 +502,35 @@
 								}
 
 
-									function proTotal(qut,price,cartId){
-										totalqut = price.value*qut
+									function proTotal(price, count,cartId){
+										let addbt = document.querySelector(`#addbtn-${cartId}`)
+										let subbt = document.querySelector(`#subbtn-${cartId}`)
+										let qut = document.querySelector(`#productQuantity-${cartId}`)
 										
-										document.getElementById(`totalMulQuantity-${cartId}`).innerText = totalqut
+										fetch('/cart/update_qut_price/', {
+											method:'POST',
+											headers:{
+												'content-Type':'application/json',
+												'X-Requested-With':'XMLHttpRequest',
+												'X-CSRFToken':csrftoken,	
+									
+											},
+											body:JSON.stringify({'cartId':cartId,'qut':qut,'count':count})
+											})
+											.then(response=>{
+												return response.json()
+											})
+											.then((data)=>{
+
+												$('#cart').load(`${location.href} #cart`);
+												console.log('data:',data.product_qt_mul_value)
+												var multi_qut_price = document.querySelector('#totalMulQuantity-'+cartId)
+												qut.value = data.productQty
+												multi_qut_price.value = data.product_qt_mul_value
+												document.getElementById("jail1").innerHTML = data.sum
+												
+												
+											})
 										
 
 									}
@@ -484,20 +538,21 @@
 									function changeProductQauntity(count, cartId){
 										let addbt = document.querySelector(`#addbtn-${cartId}`)
 										let subbt = document.querySelector(`#subbtn-${cartId}`)
-										let qut = document.querySelector(`#productQuantity-${cartId}`)
+										
 										let price = document.getElementById(`proPrice-${cartId}`)
 											
-
-										if (parseInt(qut.value) === 1 && count === -1){
+										
+										proTotal(price, count,cartId)
+										{% comment %} if (parseInt(qut.value) === 1 && count === -1){
 											return false
 										}
-										qut.value=parseInt(qut.value) + count;
-										proTotal(qut.value,price,cartId)
-										sendToalQty(qut.value,cartId)
+										qut.value=parseInt(qut.value) + count; {% endcomment %}
+										
 									}
 
 								
-									function sendToalQty(qut,cartId){
+									function sendToalQty(cartId){
+										let qut = document.querySelector(`#productQuantity-${cartId}`)
 										fetch('/cart/priceTotal', {
 											method:'POST',
 											headers:{
@@ -506,7 +561,7 @@
 												'X-CSRFToken':csrftoken,
 									
 											},
-											body:JSON.stringify({'qut':qut,'cartId':cartId})
+											body:JSON.stringify({'qut':qut.value,'cartId':cartId})
 											})
 											.then(response=>{
 												return response.json()
@@ -558,7 +613,7 @@
 							</div>
 
 							<div class="size-209"  >
-								<span class="mtext-110 cl2" id="jail1" >
+								<span class="mtext-110 cl2" id="jail1" value="">{{sub_total_bill}}
 								</span>
 							</div>
 							
@@ -816,6 +871,9 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
         event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';
       })
     </script>
+
+
+	
 <!--===============================================================================================-->	
 	<script src="{% static 'vendor/jquery/jquery-3.2.1.min.js' %}"></script>
 <!--===============================================================================================-->

@@ -29,9 +29,6 @@ class Size_chart(models.Model):
     def __str__(self):
         return self.size
 
-class Images(models.Model):
-    image_name = models.CharField(max_length=255, blank=True, null=True)
-    images = models.ImageField(upload_to ='images')
 
 
 class Product(models.Model):
@@ -41,10 +38,10 @@ class Product(models.Model):
     product_gen = models.CharField(max_length = 30,choices = product_gender,null=True,default='all')
     product_name = models.CharField(max_length=100, null=True)
     slug = models.SlugField(max_length=200,unique=True)
+    image = models.ImageField(upload_to='image/', height_field=None, width_field=None, max_length=None, null=True)
     discription = models.TextField(max_length=500,blank=True)
     price = models.PositiveIntegerField(validators=[MinValueValidator(400),MaxValueValidator(10000),],null=True)
-    size_chart = models.ForeignKey(Size_chart,on_delete=models.CASCADE,null=True,blank=True,default='select any one')
-    image = models.ForeignKey(Images,on_delete=models.CASCADE)
+    size_chart = models.IntegerField(null = True, blank=True)
     stock = models.PositiveIntegerField(validators=[MinValueValidator(1),MaxValueValidator(20),],null=True)
     is_available = models.BooleanField(default=True)
     category = models.ForeignKey(Category,on_delete=models.CASCADE,default='select any one') 
@@ -73,5 +70,5 @@ class Product(models.Model):
     # @receiver(post_save,sender=user)
     # def save_product_profile(sender,instance,**kwrgs):
     #     instance.profile.save()
-    
+
     

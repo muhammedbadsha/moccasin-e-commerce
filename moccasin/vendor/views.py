@@ -2,10 +2,12 @@ from datetime import date
 from multiprocessing import context
 from unicodedata import category
 from django.core.exceptions import ValidationError
-from django.http import HttpResponse
-from django.shortcuts import render,redirect
+from django.http import HttpResponse,JsonResponse
+from django.shortcuts import render,redirect,get_object_or_404
 from category.models import Category
 from order.models import CashOnDelivery
+
+
 
 from order.models import Payment
 from order.models import order
@@ -15,6 +17,7 @@ from accounts.models import  User
 from django.contrib import auth,messages
 from django.contrib.auth.decorators import login_required
 # product add 
+
 from .forms import add_product_form
 from django.utils.text import slugify
 from product.models import Product,Size_chart
@@ -27,7 +30,6 @@ from django.utils.http import urlsafe_base64_decode
 from django.utils.encoding import force_bytes
 from django.contrib.auth.tokens import default_token_generator
 from django.conf import settings
-
 
 
 
@@ -56,6 +58,7 @@ def vendor_register(request):
         return redirect('vendor_home')
     if request.method == 'POST':
         form = VendorForm(request.POST)
+        
         if form.is_valid():
             first_name = form.cleaned_data['first_name']
             last_name = form.cleaned_data['last_name']
@@ -80,7 +83,7 @@ def vendor_register(request):
             user.shop_name = shop_name
             user.city = city
             user.state = state
-            user.zip_code=zip_code
+            user.zip_code = zip_code
             user.save()
 
             #verification
@@ -155,8 +158,10 @@ def vendor_logout(request):
 
 def tables(request):
     product = Product.objects.all()
+   
     context = {
-        'product':product
+        'product':product,
+        
     }
     return render(request,'vendor/pages/tables.html',context)
 
@@ -185,22 +190,42 @@ def add_product(request):
     # try:
     if request.method == 'POST':
         form = add_product_form(request.POST,request.FILES)
+        
         if form.is_valid: 
             product_name = request.POST['product_name']
-            category = Category.objects.get(category_name=request.POST['category'])
             
+            # try:
+            cate = request.POST['category']
+            category = get_object_or_404(Category, pk = cate)
+            print(category)
+
+            # except:
+            #     cate = request.POST['category']
+            #     raise ValidationError(cate+' this category does not exist')
             discription = request.POST['discription']
-            size_chart =Size_chart.objects.get(size=request.POST['size_chart'])
-            print("hiiii")
-            price = request.POST['price']
-            stock = request.POST['stock']
+        
+            size_chart =  request.POST['size_chart']
+            size = request.POST['size_chart']
+            # size_chart = get_object_or_404(Size_chart, pk = size)
+            # print(size_chart)
+            # print(" dddddddddddddddddddddddddddddddd")
+            
+            # if Size_chart.objects.filter(size = size_chart).exists():
+            #     pass
+            # else:
+            #     messages(request,'size is not available add the size')
+            # print("hiiii")
+            price = int(request.POST['price'])
+            stock = int(request.POST['stock'])
+            
             image = request.FILES['image']
             product_gen=request.POST['product_gen']
             slug = slugify(product_name)
-            if price >= 400 and price <= 10000:
-                return ValidationError("this field must be between 400 to 10000")
-            if stock >= 1 and stock <= 20:
-                return ValidationError("this field must be between 1 to 20")
+            print(type(price))
+            if price <= 400 and price >= 10000:
+                raise ValidationError("this field must be between 400 to 10000")
+            if stock <= 1 and stock >= 20:
+                raise ValidationError("this field must be between 1 to 20")
             
             product = Product.objects.create(
                 product_name=product_name,
@@ -217,7 +242,8 @@ def add_product(request):
             product.permition=True
             product.slug=slug
             
-            product.save()
+            f = product.save()
+           
             return redirect('tables')
             
     # except :
@@ -240,14 +266,17 @@ def add_product(request):
 
     else:
 
-        form = add_product_form(initial={'slug': 'no need'})
-    category = Category.objects.all()
-    size_chart = Size_chart.objects.all()
+        form = add_product_form(request.POST,request.FILES,initial={'slug': 'no need'})
+    
+    # category = Category.objects.all()
+    # size_chart = Size_chart.objects.all()
     
     context = {
+        
         'forms':form,
-        'category':category,
-        'size_chart':size_chart,
+        # 'category':category,
+        # 'size_chart':size_chart,
+
 
     }
 
@@ -256,26 +285,84 @@ def add_product(request):
 
 
 def view_product(request,id):
-    product_view = Product.objects.get(id = id)
-    context = {
-        'products_view':product_view,
-    }
-    return render(request,'vendor/pages/view_product.html',context)
+    if request.method == "GET":
+
+        product_view =get_object_or_404(Product, id = id)
+        print("jjjjjjjjjjjjjjjjj")
+        context = {
+            'products_view':product_view,
+        }
+        return render(request, 'vendor/pages/view_product.html',context)
+    return render(request, 'vendor/pages/view_product.html',context)
+    
 
 
 def update_product(request,id):
     if request.user.is_authenticated:
         user=request.user
-        product_update = Product.objects.get(id=id)
+        product_update = get_object_or_404(Product,id = id)
     else:
         return redirect("user_login")
+    product_update = get_object_or_404(Product,id = id)
     if request.method == 'POST':
-        form = ProductForm(request.POST,request.FILES,instance=product_update)
+        print(product_update)
+        form = add_product_form(request.POST or None,request.FILES,instance=product_update)
        
+        
+        
         if form.is_valid:
+            # product_name = request.POST['product_name']
             
-            form.save()
-           
+            # # try:
+            # cate = request.POST['category']
+            # category = get_object_or_404(Category, pk = cate)
+            # print(category)
+
+            # # except:
+            # #     cate = request.POST['category']
+            # #     raise ValidationError(cate+' this category does not exist')
+            # discription = request.POST['discription']
+        
+            # size_chart =  request.POST['size_chart']
+            # size = request.POST['size_chart']
+            # # size_chart = get_object_or_404(Size_chart, pk = size)
+            # # print(size_chart)
+            # # print(" dddddddddddddddddddddddddddddddd")
+            
+            # # if Size_chart.objects.filter(size = size_chart).exists():
+            # #     pass
+            # # else:
+            # #     messages(request,'size is not available add the size')
+            # # print("hiiii")
+            # price = int(request.POST['price'])
+            # stock = int(request.POST['stock'])
+            
+            # if request.FILES['image'] is None:
+            #     image = product_update.image
+            # else:
+            #     image = request.FILES['image']
+
+            # product_gen=request.POST['product_gen']
+            # slug = slugify(product_name)
+            # print(type(price))
+            # if price <= 400 and price >= 10000:
+            #     raise ValidationError("this field must be between 400 to 10000")
+            # if stock <= 1 and stock >= 20:
+            #     raise ValidationError("this field must be between 1 to 20")
+            
+            # product = Product.objects.update(
+            #     product_name=product_name,
+            #     category=category,
+            #     discription=discription,
+            #     slug = slug,
+            #     price=price,
+            #     image=image,
+            #     stock=stock,
+            #     product_gen=product_gen,
+            #     size_chart=size_chart,
+            #     )
+            f = form.save()
+      
             
             #verification
             # current_site = get_current_site(request)  
@@ -295,12 +382,16 @@ def update_product(request,id):
 
         form = add_product_form(initial={'slug': 'no need'})
 
-    product_update = Product.objects.get(id=id)
-    form = ProductForm(instance=product_update)
-    print(product_update.id)
+
+    product_update = Product.objects.filter(id=id).first()
+    # print(product_update.price)
+
+    form = add_product_form(request.POST or None,request.FILES or None,instance=product_update)
+
     context={
         'product_update':form,
         'product_detail':product_update,
+      
     }
 
     return render(request,'vendor/pages/update_product.html',context)

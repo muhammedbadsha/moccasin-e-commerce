@@ -235,15 +235,18 @@
 {% comment %} <script src="{% static 'js/htmx/htmx.min.js' %}" defer></script> {% endcomment %}
 {% comment %} <script src="{% static 'js/htmx/debug.js' %}" defer></script> {% endcomment %}
  <!--   toast message   -->
+ <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.1/js/bootstrap.min.js"></script>  
+ <script src="https://unpkg.com/htmx.org@1.9.2" integrity="sha384-L6OqL9pRWyyFU3+/bjdSri+iIphTN/bvYyM37tICVyOJkWZLpP2vGn6VUEXgzg6h" crossorigin="anonymous"></script>
 <script src="{% static "vendor/add_product/toast.js" %}"></script>
 
   <!--   Core JS Files   -->
   <script src="{% static 'assets/js/core/popper.min.js' %}"></script>
-  <script src="{% static 'assets/js/core/bootstrap.min.js' %}"></script>
+  {% comment %} <script src="{% static 'assets/js/core/bootstrap.min.js' %}"></script> {% endcomment %}
   <script src="{% static 'assets/js/plugins/perfect-scrollbar.min.js' %}"></script>
   <script src="{% static 'assets/js/plugins/smooth-scrollbar.min.js' %}"></script>
   <script src="{% static 'assets/js/plugins/chartjs.min.js' %}"></script>
-  <script>
+  {% comment %} <script>
     var ctx1 = document.getElementById("chart-line").getContext("2d");
 
     var gradientStroke1 = ctx1.createLinearGradient(0, 230, 0, 50);
@@ -325,7 +328,7 @@
         },
       },
     });
-  </script>
+  </script> {% endcomment %}
   <script>
     var win = navigator.platform.indexOf('Win') > -1;
     if (win && document.querySelector('#sidenav-scrollbar')) {
@@ -347,14 +350,13 @@
 <script src="{% static 'vendor/add_product/dialog.js' %}"></script>
 
   <!-- Github buttons -->
-  <script async defer src="https://buttons.github.io/buttons.js"></script>
+  {% comment %} <script async defer src="https://buttons.github.io/buttons.js"></script> {% endcomment %}
   <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
  
-  <script src="{% static 'assets/js/argon-dashboard.js' %}"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-  
+  {% comment %} <script src="{% static 'assets/js/argon-dashboard.js' %}"></script> {% endcomment %}
+  {% comment %} <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script> {% endcomment %}
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  {% comment %} <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.1/js/bootstrap.min.js"></script> {% endcomment %}
   
 </body>
 

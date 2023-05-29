@@ -1,6 +1,6 @@
 from itertools import count
 from multiprocessing import context
-from cart.models import Cart,CartItem
+from cart.models import CartItem
 from django.shortcuts import get_object_or_404, render
 from django.http import JsonResponse,HttpResponse
 import json
@@ -11,38 +11,12 @@ from django.contrib import messages
 # Create your views here.
 
 
-def product(request,category_slug = None):
-    category=None
-    product=None
-    if category_slug != None:
-        categories = get_object_or_404(Category,slug=category_slug)
-        products= Product.objects.filter(category=categories,is_available = True)
-        product_count=products.count()
-        if products.stock < 1:
-            messages.INFO(request,'OUT OF STOCK')
-    else:
-        product = Product.objects.all().filter(
-            is_available = True,
-            permition = True,
-            )
-    try:
-        cart = CartItem.objects.filter(customer = request.user).all()
-        
-    except:
-        cart=None
-    # if cart is None:
-    #     pass
-    # else:
-    #     # total = 0
-    #     # for i in cart:
-    #     #     total += i.pro_qty_price
-    #     #     print(total)
-    context={
+def product(request):
+    product = Product.objects.filter(is_available = True)
+    print(product)
+    context = {
         'product':product,
-        
-        
     }
-    
     return render(request,'user/product.html',context)
  
 

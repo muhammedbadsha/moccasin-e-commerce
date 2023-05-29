@@ -747,7 +747,8 @@
 				</div>
 				<div class="row isotope-grid ">
 					
-					{% for products in product %} 
+					{% for products in product %}
+					{% if products.image %} 
 					<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item {{products.product_gen}} margin-bottom-2em "  >
 						<!-- Block2 -->
 						<div class="block2" style='height: 20em; width: 17em;'>
@@ -780,7 +781,7 @@
 							</div>
 						</div>
 					</div>
-					
+					{% endif %}
 					{% endfor %}
 				</div>
 
@@ -1105,6 +1106,7 @@
 		
 		<!-- modal quick view -->
 		{% for products in product%}
+		{% if products.image %}
 				<div class="modal fade" id="exampleModal-{{forloop.counter}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 					<div class="modal-dialog modal-dialog-centered modal-lg">
 					  <div class="modal-content">
@@ -1121,9 +1123,9 @@
 								<div class="wrap-slick3-arrows flex-sb-m flex-w"></div>
 
 								<div class="slick3 gallery-lb">
-									<div class="item-slick3" data-thumb="{{products.image.url}}">
+									{% comment %} <div class="item-slick3" data-thumb="{{products.image.url}}"> {% endcomment %}
 										<div class="wrap-pic-w pos-relative">
-											<img src="{{products.image.url}}" alt="IMG-PRODUCT">
+											{% comment %} <img src="{{products.image.url}}" alt="IMG-PRODUCT"> {% endcomment %}
 
 											<a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04" href="images/product-detail-01.jpg">
 												<i class="fa fa-expand"></i>
@@ -1143,7 +1145,7 @@
 
 									<div class="item-slick3" data-thumb="{{products.image.url}}">
 										<div class="wrap-pic-w pos-relative">
-											<img src="{{products.image.url}}" alt="IMG-PRODUCT">
+												<img src="{{products.image.url}}" alt="IMG-PRODUCT">
 
 											<a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04" href="images/product-detail-03.jpg">
 												<i class="fa fa-expand"></i>
@@ -1241,6 +1243,7 @@
 						</div>
 					</div>
 				</div>
+				{% endif %}
 	{% endfor %}
 
 	<script>

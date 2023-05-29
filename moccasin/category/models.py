@@ -1,12 +1,19 @@
 
 from tabnanny import verbose
 from django.db import models
+from django.core.exceptions import ValidationError
 from django.urls import reverse
 
     # Create your models here.
 
 class Category(models.Model):
-    category_name = models.CharField(max_length=50,unique=True)
+    def validate_catogory_name(self,value):
+        if value == Category.objects.filter(category_name = value).exists():
+            raise ValidationError(" Category is already added try another one")
+        if len(value) < 3 and len(value) > 15:
+            raise ValidationError("category should atleast 3 charcter and atmost 15 characters")
+        
+    category_name = models.CharField(validators=[validate_catogory_name],max_length=50,unique=True)
     discription = models.CharField(max_length=255,blank=True)
     cart_image = models.ImageField(upload_to='photos/categories',blank=True)
 

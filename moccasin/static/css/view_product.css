@@ -1,0 +1,20 @@
+.modal{
+    width: 16rem;
+    height: auto;
+    align-items: center;
+    margin-left: 4rem;
+    margin-right: 4rem;
+}
+.modal-content1{
+    width: 16rem;
+    height: auto;
+    background-color: white;
+}
+img{
+    width: 300px;
+    height:400px;
+}
+.modal_bodys{
+    display: flex;
+    background-color: black;
+}

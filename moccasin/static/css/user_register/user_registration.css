@@ -31,11 +31,11 @@ margin: 0 0 18px 0;
 .login-div{
   align-content: center;
   background-color: white;
-  height:40em;
+  height:auto;
   width: 23rem;
   margin-bottom: 4rem;
-  box-shadow: 4px 3px 8px 1px #969696;
-  -webkit-box-shadow: 4px 3px 8px 1px #969696;
+  /* box-shadow: 4px 3px 8px 1px #969696; */
+  /* -webkit-box-shadow: 4px 3px 8px 1px #969696; */
 }
 
 .wrapper h5{

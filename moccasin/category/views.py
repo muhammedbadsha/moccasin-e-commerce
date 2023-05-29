@@ -26,7 +26,7 @@ def add_category(request):
                 'HX-Trigger': json.dumps({
                     "categoryListChanged": None,
                     "showMessage": f"{category_name} already added."
-                })
+                })  
             })
         elif category_name is not None:
             category = Category.objects.create(category_name=category_name)
