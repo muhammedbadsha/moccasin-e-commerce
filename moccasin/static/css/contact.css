@@ -62,6 +62,57 @@ body {
     background: #FF5722
 }
 
+.track .success { -webkit-box-flex: 1;
+-ms-flex-positive: 1;
+flex-grow: 1;
+width: 25%;
+margin-top: -18px;
+text-align: center;
+position: relative
+}
+
+.track .success.active:before {
+    background: #14f803
+}
+
+.track .success::before {
+    height: 7px;
+    position: absolute;
+    content: "";
+    width: 100%;
+    left: 0;
+    top: 18px
+}
+.track .success.active .text {
+    font-weight: 400;
+    color: #000
+}
+
+
+.track .cancel { 
+    -webkit-box-flex: 1;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+    width: 25%;
+    margin-top: -18px;
+    text-align: center;
+    position: relative
+    }
+    
+.track .cancel.active:before {
+    background: #f80303
+}
+
+.track .cancel::before {
+    height: 7px;
+    position: absolute;
+    content: "";
+    width: 100%;
+    left: 0;
+    top: 18px
+}
+
+
 .track .step::before {
     height: 7px;
     position: absolute;
@@ -86,6 +137,10 @@ body {
     background: #ddd
 }
 
+.track .cancel.active .text {
+    font-weight: 400;
+    color: #000
+}
 .track .step.active .text {
     font-weight: 400;
     color: #000
@@ -150,4 +205,9 @@ p {
     background-color: #ff2b00;
     border-color: #ff2b00;
     border-radius: 1px
+}
+.order_list_items{
+    border-color: rgb(0 0 0);
+    border-width: 7px;
+    padding-right: 17px;
 }

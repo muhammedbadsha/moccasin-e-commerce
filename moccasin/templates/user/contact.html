@@ -335,8 +335,10 @@
 	<div class="container">
 		<article class="card">
 			<header class="card-header"> My Orders / Tracking </header>
-			<div class="card-body">
-				<h6>Order ID: OD45345345435</h6>
+			
+			<div class="card-body" id="status">
+				<p>{{showMessage}}</p>
+				<h6>Order ID: {{order.id}}</h6>
 				<article class="card">
 					<div class="card-body row">
 						<div class="col"> <strong>Estimated Delivery time:</strong> <br>29 nov 2019 </div>
@@ -345,15 +347,48 @@
 						<div class="col"> <strong>Tracking #:</strong> <br> BD045903594059 </div>
 					</div>
 				</article>
-				<div class="track" id="status">
-					<div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">Order confirmed</span> </div>
-					<div class="step active"> <span class="icon"> <i class="fa fa-user"></i> </span> <span class="text"> Picked by courier</span> </div>
-					<div class="step"> <span class="icon"> <i class="fa fa-truck"></i> </span> <span class="text"> On the way </span> </div>
-					<div class="step"> <span class="icon"> <i class="fa fa-box"></i> </span> <span class="text">Ready for pickup</span> </div>
-				</div>
+				{% comment %} {% if order_product.product_status %} {% endcomment %}
+				
+				
+				<div class="track" >
+					{% if order.product_status == 'delivered' %}
+						<div class="success active"> <span class="icon"> <i class="fa fa-success"></i> </span> <span class="text">success</span> </div>
+					{% elif order.product_status == Ready_for_pickup %}
+						<div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">Order confirmed</span> </div>
+						<div class="step active"> <span class="icon"> <i class="fa fa-user"></i> </span> <span class="text"> Picked by courier</span> </div>
+						<div class="step active"> <span class="icon"> <i class="fa fa-truck"></i> </span> <span class="text"> On the way </span> </div>
+						<div class="step active"> <span class="icon"> <i class="fa fa-box"></i> </span> <span class="text">Ready for pickup</span> </div>
+					{% elif order.product_status == 'On_the_way' %}
+						<div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">Order confirmed</span> </div>
+						<div class="step active"> <span class="icon"> <i class="fa fa-user"></i> </span> <span class="text"> Picked by courier</span> </div>
+						<div class="step active"> <span class="icon"> <i class="fa fa-truck"></i> </span> <span class="text"> On the way </span> </div>
+						<div class="step deactive"> <span class="icon"> <i class="fa fa-box"></i> </span> <span class="text">Ready for pickup</span> </div>
+					{% elif order.product_status == 'Picked_by_courier' %}
+						<div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">Order confirmed</span> </div>
+						<div class="step active"> <span class="icon"> <i class="fa fa-user"></i> </span> <span class="text"> Picked by courier</span> </div>
+						<div class="step deactive"> <span class="icon"> <i class="fa fa-truck"></i> </span> <span class="text"> On the way </span> </div>
+						<div class="step deactive"> <span class="icon"> <i class="fa fa-box"></i> </span> <span class="text">Ready for pickup</span> </div>
+					{% elif order.product_status == 'Order_confirmed' %}
+						<div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">Order confirmed</span> </div>
+						<div class="step deactive"> <span class="icon"> <i class="fa fa-user"></i> </span> <span class="text"> Picked by courier</span> </div>
+						<div class="step deactive"> <span class="icon"> <i class="fa fa-truck"></i> </span> <span class="text"> On the way </span> </div>
+						<div class="step deactive"> <span class="icon"> <i class="fa fa-box"></i> </span> <span class="text">Ready for pickup</span> </div>
+					{% elif order.product_status == 'pending' %}
+					<div class="step deactive " style=" background-Color:yellow;"> <span class="icon"> <i class="fa fa-pause bg-danger"></i> </span> <span class="text">order is pending</span> </div>
+					{% else %}
+					<div class="cancel active "> <span class="icon"> <a href="https://www.flaticon.com/free-icons/close" title="close icons"></a> </span> <span class="text">Order canceled</span> </div>
+					{% endif %}
+					</div>
+
+				{% comment %} {% endif %} {% endcomment %}
+				
+			</div>
+			<div>
+				
 				<hr>
 				<ul class="row">
 					{% for order in order_product %}
+					<div class='order_list_items'>
 					<li class="col-sm-3" >
 						<figure class="itemside mb-3" hx-get="{% url 'order_status_click' order.id %}" hx-trigger="click" hx-swap="outerHTML" hx-target="#status">
 							<div class="aside"><img src="{{order.product.image.url}}" class="img-sm border"></div>
@@ -362,6 +397,7 @@
 							</figcaption>
 						</figure>
 					</li>
+				</div>
 					{% endfor %}
 					
 				</ul>

@@ -6,7 +6,7 @@ from product.models import Product
 from order.models import order
 from .forms import RegisterForm
 from .models import User
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages,auth
 from django.template.loader import render_to_string
@@ -18,6 +18,9 @@ from django.utils.encoding import force_bytes
 from django.contrib.auth.tokens import default_token_generator
 from accounts.mixins import MssageHandler
 from .otp import verify,verify_check 
+from datetime import datetime, date, timedelta
+from django.core import serializers
+import json
 
 # Create your views here.
 def user_register(request):
@@ -257,10 +260,16 @@ def order_status(request):
     try:
         user = request.user
         order_product = order.objects.filter(user=user).all()
+        first_row = order.objects.first()
+        print(first_row)
+        # date = order_product.created_at
+        # expected_date = date + timedelta(days=7)
+        # print(order_product.created_at)
     except:
         return redirect('home')
 
     context = {
+        'order': first_row,
         "order_product":order_product,
     }
     return render(request,'user/contact.html',context)
@@ -268,7 +277,29 @@ def order_status(request):
      
 def order_status_click(request,id):
     print(id)
-    return redirect('order_status')
+    try:
+        user = request.user
+        order_product = order.objects.get(id=id)
+        print(order_product,'thsi')
+        # date = order_product.created_at
+        # expected_date = date + timedelta(days=7)
+        # print(order_product.created_at)
+    except:
+        return redirect('home')
+    order_data = {
+            "id": order_product.id,
+            "status": order_product.product_status,
+            "created_at": order_product.created_at,
+            # Add other fields as needed
+        }
+
+        # Convert the dictionary to a JSON string
+    json_data = json.dumps(order_data)
+        
+        # Create an HttpResponse with JSON content
+    response = HttpResponse(json_data, content_type='application/json')
+                               
+    return response
 
 def blog(request):
     return render(request,'user/blog.html')

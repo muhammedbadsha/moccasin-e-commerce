@@ -6,10 +6,10 @@ from cart.models import CartItem
 
 # Create your models here.
 product_status_choice =  (
-    ('shipping','shipping'),
-    ('Picked by courier','Picked by courier'),
-    ('On the way','On the way'),
-    ('Ready for pickup','Ready for pickup'),
+    ('Order_confirmed','Order confirmed'),
+    ('Picked_by_courier','Picked by courier'),
+    ('On_the_way','On the way'),
+    ('Ready_for_pickup','Ready for pickup'),
     ('pending','pending'),
     ('delivered','delivered'),
     ('cancel','cancel')
@@ -46,7 +46,7 @@ class order(models.Model):
     product_status = models.CharField(choices= product_status_choice,max_length=50,null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-        
+  
     def __str__(self):
         return self.product.product_name
 
