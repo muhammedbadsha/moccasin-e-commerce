@@ -1,0 +1,24 @@
+version: '3'
+
+services:
+  moccasin_web:
+    build: 
+      context: ./moccasin_web
+    volumes:
+      - .:/moccasin
+
+    ports:
+      - 8000:8000
+    image: moccasin:moccasin-image
+    container_name: moccasin-container-docker
+    command: python manage.py runserver 0.0.0.0:8000
+  pgdb:
+    images: moccasin_pgdb:pgdb-image
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+    environment:
+      - POSTGRESQL_DB=moccasin_clone
+      - POSTGRESQL_USER=postgres
+      - POSTGRESQL_PASSWORD=badsha
+    container_name: postgres_db
+    

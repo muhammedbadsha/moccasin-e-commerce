@@ -114,7 +114,7 @@ DATABASES = {
         'NAME': 'moccasin_clone',  
         'USER': 'postgres',
         'PASSWORD': 'badsha',
-        'HOST': 'localhost',
+        'HOST': 'db',
         'PORT': '5432',
     }   
 }
